@@ -1,0 +1,11 @@
+= README 
+
+Personal storage for my dotfiles, i use packer for managing nvim plugins, as it is possible to see at the config files, if something breaks with a warning of deprecated function for a lua file, warn me, i may have forgotten to update this repo with the new config file.
+
+== oh-my-zsh
+
+The .zshrc file is focused on oh-my-zsh, if some breakage happens, try installing oh-my-zsh in your setup  
+
+== tmux.conf warning 
+
+The mouse option does not let you scroll through the output on normal mode, use `Ctrl + b` plus `[` to enter copy mode, then, you can scroll with the mouse wheel. 
