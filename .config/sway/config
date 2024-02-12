@@ -21,12 +21,13 @@ set $term alacritty
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
 ### Output configuration
-exec swaybg -i ~/Pictures/wallpaper/2b_white.jpeg
+exec swaybg -i ~/Pictures/wallpaper/flowers_2b.jpeg
 
 # Enables inhibit_idle when playing audio
 exec sway-audio-idle-inhibit
 
-
+##comfy for eyes UwU
+exec gammastep -O 3500
 
 
 #removing useless titlebars
