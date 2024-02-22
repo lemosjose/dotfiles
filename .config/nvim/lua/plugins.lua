@@ -12,7 +12,6 @@ return require('packer').startup(function()
         use "hrsh7th/cmp-cmdline"
         use "hrsh7th/cmp-buffer"
         use "hrsh7th/cmp-path"
-
 	use 'nvim-treesitter/nvim-treesitter'
 	use {'nvim-orgmode/orgmode', config = function()
 		require('orgmode').setup{}
@@ -23,6 +22,10 @@ return require('packer').startup(function()
 		--- branch = '0.1.x',
                 requires = { {'nvim-lua/plenary.nvim'} }
         }
+	use {
+		"windwp/nvim-autopairs",
+                config = function() require("nvim-autopairs").setup {} end
+	}
 	-- autocomplete 
 	use 'm4xshen/autoclose.nvim'
 	use 'rebelot/kanagawa.nvim'
@@ -34,4 +37,7 @@ return require('packer').startup(function()
 		'nvim-telescope/telescope.nvim', tag = '0.1.0',
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
+	-- web stuff
+	--
+	use 'windwp/nvim-ts-autotag'
 end)

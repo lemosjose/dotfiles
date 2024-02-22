@@ -1,5 +1,5 @@
 require("cmpc") -- copied from https://github.com/thalting/nvim/blob/3ac1f2883b92c1c8c3e631728a9c298d023b88c5/lua/cmpc.lua
-
+local lspconfig = require("lspconfig")
 -- set shorter name for keymap function
 local kmap = vim.keymap.set
 
@@ -16,6 +16,11 @@ kmap({ 'n', 'v', 'i' },'<F7>', function() require("knap").toggle_autopreviewing(
 kmap({ 'n', 'v', 'i' },'<F8>', function() require("knap").forward_jump() end)
 
 vim.wo.number = true
+
+-- some LSPs 
+--
+lspconfig.pyright.setup {}
+lspconfig.tsserver.setup {}
 
 local ensure_packer = function()
   local fn = vim.fn
@@ -77,7 +82,7 @@ return require('packer').startup(function(use)
 
   -- Set up lspconfig.
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-  require('lspconfig')['clangd'].setup {
+  lspconfig.clangd.setup {
     capabilities = capabilities
   }
   if packer_bootstrap then

@@ -21,7 +21,7 @@ set $term alacritty
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
 ### Output configuration
-exec swaybg -i ~/Pictures/wallpaper/flowers_2b.jpeg
+exec swaybg -i ~/Pictures/wallpaper/fishing.jpg
 
 # Enables inhibit_idle when playing audio
 exec sway-audio-idle-inhibit
@@ -60,6 +60,9 @@ exec swayidle -w \
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
+input 1133:16534:Logitech_ERGO_M575 accel_profile adaptive
+input 1133:16534:Logitech_ERGO_M575 pointer_accel 1.0
+
 
 ### Key bindings
 #
@@ -216,3 +219,5 @@ bar {
 exec swaymsg 'input * xkb_options compose:ralt'
 xwayland enable
 include /etc/sway/config.d/*
+
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
