@@ -1,4 +1,4 @@
-;; remove the toolbar (that i personally don't like)
+;;; remove the toolbar (that i personally don't like)
 (tool-bar-mode -1)
 
 
@@ -18,15 +18,23 @@
 
 ;;disables the splash screen :^) 
 (setq inhibit-splash-screen t)
-	 
+
+(use-package srcery-theme
+  :ensure t
+  :config
+  (load-theme 'srcery t))
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("652f922b5c4fab704da86af3702cb9225005bcb18b8d0545cf9245b115798780" default))
  '(org-agenda-files '("~/Org-Notes/agenda.org"))
  '(package-selected-packages
-   '(auto-dark treemacs-all-the-icons treemacs-tab-bar linum-relative yasnippet dir-treeview flycheck cider company helm-lsp lsp-ui auto-complete org-modern lsp-mode helm pdf-tools magit)))
+   '(treemacs-all-the-icons treemacs-tab-bar linum-relative yasnippet dir-treeview flycheck cider company helm-lsp lsp-ui auto-complete org-modern lsp-mode helm pdf-tools magit)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -34,20 +42,13 @@
  ;; If there is more than one, they won't work right.
  )
 
-
-;;draculafying my emacs
-(require 'auto-dark)
-(auto-dark-mode t)
-
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
   (package-refresh-contents)
   (mapc #'package-install package-selected-packages))
 
-(require 'yanisppet)
-(yas-global-mode 1)
+
 (require 'flex-autopair)
 (ac-config-default)
-(flycheck-global-mode 1)
 
 ;;lsp stuff
 (setq lsp-keymap-prefix "s-l")
@@ -84,10 +85,12 @@
 
 (add-hook 'cider-mode-hook #'company-mode)
 (global-set-key (kbd "TAB") #'company-indent-or-complete-common)
-(define-key global-map (kbd "RET") 'newline-and-indent)
+;;(define-key global-map (kbd "RET") 'newline-and-indent)
 
 ;; org-mode configs
 (transient-mark-mode 1)
+
+(global-flycheck-mode)
 
 (require 'org)
 (global-set-key "\C-ca" 'org-agenda)
@@ -100,5 +103,9 @@
   :ensure t)
 
 (global-set-key "\C-cf" 'treemacs)
+
+
+(require 'powerline)
+(powerline-default-theme)
 
 (treemacs)
