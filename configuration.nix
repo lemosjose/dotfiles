@@ -10,12 +10,32 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  #fonts fixing 
 
+  fonts.packages = with pkgs; [
+     font-awesome
+     powerline-fonts
+     powerline-symbols
+  ];
 
   #enable my wm stuff
   programs.sway.enable = true; 
   xdg.portal.wlr.enable = true;
 
+  #unfree stuff
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+     "steam"
+     "steam-original"
+     "steam-run"
+  ];
+
+
+  #steam installation and configuration
+  programs.steam = {
+     enable = true;
+     remotePlay.openFirewall = true;
+     dedicatedServer.openFirewall = true;
+  };
 
   #enable pipewire as suggested in the manual
   sound.enable = false; 
@@ -50,7 +70,10 @@
  
   services.emacs.package = pkgs.emacs-unstable;
   
+  #bluetooth stuff
+  services.blueman.enable = true;
 
+  
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
       url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
@@ -69,13 +92,14 @@
   };
 
   # List packages installed in system profile. To search, run:
+
+
   # $ nix search wget
   environment.systemPackages = with pkgs; [
      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      wget
      thunderbird
      emacs-unstable
-     git
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
