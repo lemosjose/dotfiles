@@ -34,7 +34,7 @@
    '("652f922b5c4fab704da86af3702cb9225005bcb18b8d0545cf9245b115798780" default))
  '(org-agenda-files '("~/Org-Notes/agenda.org"))
  '(package-selected-packages
-   '(treemacs-all-the-icons treemacs-tab-bar linum-relative yasnippet dir-treeview flycheck cider company helm-lsp lsp-ui auto-complete org-modern lsp-mode helm pdf-tools magit)))
+   '(qml-mode lua-mode helm-slime ac-slime slime org-bullets yeetube treemacs-all-the-icons treemacs-tab-bar linum-relative yasnippet dir-treeview flycheck cider company helm-lsp lsp-ui auto-complete org-modern lsp-mode helm pdf-tools magit)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -68,6 +68,11 @@
 (add-to-list 'auto-mode-alist '("\\.cpp$". c++-mode))
 (add-to-list 'auto-mode-alist '("\\.hpp$". c++-mode))
 
+(add-hook 'lua-mode-hook' 'lsp)
+(add-to-list 'auto-mode-alist '(".lua". lua-mode))
+
+(add-hook 'qml-mode-hook' 'lsp)
+(add-to-list 'auto-mode-alist '(".qml". qml-mode))
 
 (setq gc-cons-threshold (* 100 1024 1024)
       read-process-output-max (* 1024 1024)
@@ -82,6 +87,15 @@
   (yas-global-mode))
 
 (add-hook 'clojure-mode-hook 'lsp)
+
+;;Common lisp stuff 
+(require 'slime)
+(slime-setup '(slime-fancy slime-quicklisp slime-asdf slime-mrepl))
+
+
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+;; Replace "sbcl" with the path to your implementation
+(setq inferior-lisp-program "sbcl")
 
 (add-hook 'cider-mode-hook #'company-mode)
 (global-set-key (kbd "TAB") #'company-indent-or-complete-common)
@@ -105,7 +119,13 @@
 (global-set-key "\C-cf" 'treemacs)
 
 
+(setq org-agenda-files (list  "~/Org-Notes/estudos.org"
+			      "~/Org-Notes/trabalho.org"
+			      "~/Org-Notes/uemg.org"))
+
+
 (require 'powerline)
 (powerline-default-theme)
 
 (treemacs)
+(pdf-tools-install)
