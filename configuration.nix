@@ -9,6 +9,9 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = ["ntfs"];
+
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   #fonts fixing 
 
@@ -22,20 +25,12 @@
   programs.sway.enable = true; 
   xdg.portal.wlr.enable = true;
 
-  #unfree stuff
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-     "steam"
-     "steam-original"
-     "steam-run"
-  ];
+  ## fix for virt-manager not creating VM
 
 
-  #steam installation and configuration
-  programs.steam = {
-     enable = true;
-     remotePlay.openFirewall = true;
-     dedicatedServer.openFirewall = true;
-  };
+  #mounting my external hdd :)
+  services.udisks2.enable = true;
+  
 
   #enable pipewire as suggested in the manual
   sound.enable = false; 
@@ -55,6 +50,16 @@
   # Pick only ONE of the available wireless options
   networking.wireless.iwd.enable = true;  # Enables wireless support via wpa_supplicant.
 
+
+
+  ## runnning container stuff
+  virtualisation.docker.enable = true;
+  
+  ##vm stuff
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
+
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
 
@@ -65,9 +70,17 @@
   #   keyMap = "us";
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
-
-  #use emacs in a newer version
  
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "steam"
+    "steam-original"
+    "steam-run"
+    "vscode"
+  ];
+  programs.steam.enable = true;
+  programs.nix-ld.enable = true;
+
+  #newer emacs for my work!
   services.emacs.package = pkgs.emacs-unstable;
   
   #bluetooth stuff
@@ -83,13 +96,25 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lemos = {
       isNormalUser = true;
-      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  #   packages = with pkgs; [
-  #     firefox
-  #     tree
-  #   ];
+      extraGroups = [ "wheel" "libvirtd" "input" "audio"]; # Enable ‘sudo’ for the user.
+      packages = with pkgs; [
+         firefox
+         tree
+         telegram-desktop
+         keepassxc
+      ];
       initialPassword = "pw123";
   };
+  users.users.work = {
+      isNormalUser = true;
+      extraGroups = ["wheel" "input" "audio"];
+      packages = with pkgs; [
+         chromium
+         firefox
+         keepassxc
+      ];
+      initialPassword = "pw123";
+  }; 
 
   # List packages installed in system profile. To search, run:
 
@@ -100,6 +125,32 @@
      wget
      thunderbird
      emacs-unstable
+     nodejs
+     gcc
+     waybar
+     gammastep
+     swaybg
+     swayidle
+     bemenu
+     grim 
+     texlive.combined.scheme-full
+     qpdfview
+     slurp
+     alacritty
+     nodePackages.typescript
+     nodePackages.vue-language-server
+     nodePackages.vscode-langservers-extracted
+     (retroarch.override {
+       cores = with libretro; [
+          genesis-plus-gx
+	  snes9x
+	  flycast
+	  beetle-saturn
+	  citra
+	  dosbox
+	  nestopia
+       ];
+     })
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
