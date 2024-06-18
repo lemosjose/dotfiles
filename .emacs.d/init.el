@@ -34,7 +34,7 @@
    '("652f922b5c4fab704da86af3702cb9225005bcb18b8d0545cf9245b115798780" default))
  '(org-agenda-files '("~/Org-Notes/agenda.org"))
  '(package-selected-packages
-   '(qml-mode lua-mode helm-slime ac-slime slime org-bullets yeetube treemacs-all-the-icons treemacs-tab-bar linum-relative yasnippet dir-treeview flycheck cider company helm-lsp lsp-ui auto-complete org-modern lsp-mode helm pdf-tools magit)))
+   '(tide auto-package-update vue-mode scss-mode web-mode qml-mode lua-mode helm-slime ac-slime slime org-bullets yeetube treemacs-all-the-icons treemacs-tab-bar linum-relative yasnippet dir-treeview flycheck cider company helm-lsp lsp-ui auto-complete org-modern lsp-mode helm pdf-tools magit)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -88,6 +88,35 @@
 
 (add-hook 'clojure-mode-hook 'lsp)
 
+(setq sgml-quick-keys 'close)
+(add-to-list 'auto-mode-alist '("\\.vue". web-mode))
+(add-to-list 'auto-mode-alist '("\\.vue". css-mode))
+(add-to-list 'auto-mode-alist '("\\.vue". html-mode))
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+;; if you use typescript-mode
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+;; if you use treesitter based typescript-ts-mode (emacs 29+)
+(add-hook 'typescript-ts-mode-hook #'setup-tide-mode)
+
+
 ;;Common lisp stuff 
 (require 'slime)
 (slime-setup '(slime-fancy slime-quicklisp slime-asdf slime-mrepl))
@@ -103,6 +132,8 @@
 
 ;; org-mode configs
 (transient-mark-mode 1)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+;;
 
 (global-flycheck-mode)
 
