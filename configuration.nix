@@ -10,6 +10,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = ["ntfs"];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -22,11 +24,16 @@
   ];
 
   #enable my wm stuff
-  programs.sway.enable = true; 
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+  };
+ 
   xdg.portal.wlr.enable = true;
 
-  ## fix for virt-manager not creating VM
+  security.polkit.enable = true;
 
+  
 
   #mounting my external hdd :)
   services.udisks2.enable = true;
@@ -87,6 +94,9 @@
   services.blueman.enable = true;
 
   
+  services.gvfs.enable = true;
+  services.devmon.enable = true;
+
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
       url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
@@ -102,6 +112,9 @@
          tree
          telegram-desktop
          keepassxc
+         cmus
+	 pcmanfm
+	 mpv
       ];
       initialPassword = "pw123";
   };
@@ -112,6 +125,7 @@
          chromium
          firefox
          keepassxc
+         pavucontrol
       ];
       initialPassword = "pw123";
   }; 
@@ -136,6 +150,10 @@
      texlive.combined.scheme-full
      qpdfview
      slurp
+     leiningen
+     wl-clipboard
+     mako 
+     jdk21
      alacritty
      nodePackages.typescript
      nodePackages.vue-language-server
