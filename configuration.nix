@@ -24,16 +24,12 @@
   ];
 
   #enable my wm stuff
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-  };
  
   xdg.portal.wlr.enable = true;
 
   security.polkit.enable = true;
 
-  
+  programs.sway.enable = true; 
 
   #mounting my external hdd :)
   services.udisks2.enable = true;
@@ -61,7 +57,8 @@
 
   ## runnning container stuff
   virtualisation.docker.enable = true;
-  
+  virtualisation.waydroid.enable = true;
+
   ##vm stuff
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
@@ -83,6 +80,9 @@
     "steam-original"
     "steam-run"
     "vscode"
+    "spotify"
+    "libretro-genesis-plus-gx"
+    "libretro-snes9x"
   ];
   programs.steam.enable = true;
   programs.nix-ld.enable = true;
@@ -110,28 +110,20 @@
       packages = with pkgs; [
          firefox
          tree
-         telegram-desktop
          keepassxc
          cmus
 	 pcmanfm
 	 mpv
+	 streamlink
+         neochat
       ];
       initialPassword = "pw123";
   };
-  users.users.work = {
-      isNormalUser = true;
-      extraGroups = ["wheel" "input" "audio"];
-      packages = with pkgs; [
-         chromium
-         firefox
-         keepassxc
-         pavucontrol
-      ];
-      initialPassword = "pw123";
-  }; 
-
   # List packages installed in system profile. To search, run:
 
+  programs.zsh.enable = true;
+
+  users.defaultUserShell = pkgs.zsh;
 
   # $ nix search wget
   environment.systemPackages = with pkgs; [
