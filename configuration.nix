@@ -12,7 +12,6 @@
   boot.supportedFilesystems = ["ntfs"];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   #fonts fixing 
@@ -47,7 +46,7 @@
 
   services.pipewire.wireplumber.enable = true; 
  
-  #Prettying my hostname with Garras da Patrulha' Characters
+  #Prettying my hostname with 'Garras da Patrulha' Characters
   networking.hostName = "tizil";
   
   # Pick only ONE of the available wireless options
@@ -108,7 +107,6 @@
       isNormalUser = true;
       extraGroups = [ "wheel" "libvirtd" "input" "audio"]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
-         firefox
          tree
          keepassxc
          cmus

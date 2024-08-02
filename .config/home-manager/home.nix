@@ -15,7 +15,7 @@
   ];
 
   programs.waybar.enable = true; 
-
+  programs.firefox.enable = true;
   nixpkgs = {
     # You can add overlays here
     overlays = [
