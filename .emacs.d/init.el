@@ -19,6 +19,11 @@
 ;;disables the splash screen :^) 
 (setq inhibit-splash-screen t)
 
+
+
+
+(setq warning-minimum-level :error)
+
 (use-package srcery-theme
   :ensure t
   :config
@@ -34,7 +39,7 @@
    '("652f922b5c4fab704da86af3702cb9225005bcb18b8d0545cf9245b115798780" default))
  '(org-agenda-files '("~/Org-Notes/agenda.org"))
  '(package-selected-packages
-   '(multiple-cursors tide auto-package-update vue-mode scss-mode web-mode qml-mode lua-mode helm-slime ac-slime slime org-bullets yeetube treemacs-all-the-icons treemacs-tab-bar linum-relative yasnippet dir-treeview flycheck cider company helm-lsp lsp-ui auto-complete org-modern lsp-mode helm pdf-tools magit)))
+   '(adoc-mode typescript-mode multiple-cursors tide auto-package-update vue-mode scss-mode web-mode qml-mode lua-mode helm-slime ac-slime slime org-bullets yeetube treemacs-all-the-icons treemacs-tab-bar linum-relative yasnippet dir-treeview flycheck cider company helm-lsp lsp-ui auto-complete org-modern lsp-mode helm pdf-tools magit)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -68,6 +73,9 @@
 (add-to-list 'auto-mode-alist '("\\.cpp$". c++-mode))
 (add-to-list 'auto-mode-alist '("\\.hpp$". c++-mode))
 
+(add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))
+
+
 (add-hook 'lua-mode-hook' 'lsp)
 (add-to-list 'auto-mode-alist '(".lua". lua-mode))
 
@@ -75,7 +83,7 @@
 (add-to-list 'auto-mode-alist '(".qml". qml-mode))
 
 (setq gc-cons-threshold (* 100 1024 1024)
-      read-process-output-max (* 1024 1024)
+      read/-process-output-max (* 1024 1024)
       treemacs-space-between-root-nodes nil
       company-idle-delay 0.0
       company-minimum-prefix-length 1
@@ -105,6 +113,8 @@
   ;; `M-x package-install [ret] company`
   (company-mode +1))
 
+
+(setq package-list '(dap-mode typescript-mode))
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
 
@@ -140,6 +150,7 @@
 (require 'org)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-ct" 'sgml-close-tag)
+
 
 (setq org-default-notes-file "~/Org-Notes/init.org"
       initial-buffer-choice org-default-notes-file)
