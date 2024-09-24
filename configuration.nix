@@ -6,11 +6,11 @@
       ./hardware-configuration.nix
     ];
 
+  hardware.opengl.enable = true;
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = ["ntfs"];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -28,14 +28,13 @@
 
   security.polkit.enable = true;
 
-  programs.sway.enable = true; 
-
   #mounting my external hdd :)
   services.udisks2.enable = true;
-  
+
+  #i hate zen browser sometimes
+  services.flatpak.enable = true;
 
   #enable pipewire as suggested in the manual
-  sound.enable = false; 
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -62,6 +61,7 @@
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
 
+  #run unpatched binaries
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
@@ -89,11 +89,10 @@
   #newer emacs for my work!
   services.emacs.package = pkgs.emacs-unstable;
   
-  #bluetooth stuff
-  services.blueman.enable = true;
 
   
   services.gvfs.enable = true;
+  services.tumbler.enable = true;
   services.devmon.enable = true;
 
   nixpkgs.overlays = [
@@ -108,12 +107,16 @@
       extraGroups = [ "wheel" "libvirtd" "input" "audio"]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
          tree
+	 session-desktop-appimage
+	 sbcl
+	 geeqie
+	 transmission-qt
+	 firefox
+	 yt-dlp
          keepassxc
          cmus
-	 pcmanfm
 	 mpv
 	 streamlink
-         neochat
       ];
       initialPassword = "pw123";
   };
@@ -121,12 +124,17 @@
 
   programs.zsh.enable = true;
 
+  programs.sway.enable = true;
+
+  programs.thunar.enable = true;
+
   users.defaultUserShell = pkgs.zsh;
 
   # $ nix search wget
   environment.systemPackages = with pkgs; [
      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      wget
+     kdePackages.ark
      thunderbird
      emacs-unstable
      nodejs
@@ -136,10 +144,13 @@
      swaybg
      swayidle
      bemenu
-     grim 
+     grim
+     kexec-tools
      texlive.combined.scheme-full
      qpdfview
      slurp
+     openvpn
+     libarchive
      leiningen
      wl-clipboard
      mako 
