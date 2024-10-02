@@ -20,15 +20,38 @@
 (setq inhibit-splash-screen t)
 
 
+;; i can't tolerate the scratch buffer
+(add-hook 'emacs-startup-hook (lambda ()
+                                (when (get-buffer "*scratch*")
+                                  (kill-buffer "*scratch*"))))
+
+
+;;enlight config
+(use-package enlight
+  :custom
+  (enlight-content
+   (concat
+    (propertize "MENU" 'face 'highlight)
+    "\n"
+    (enlight-menu
+     '(("Org Mode"
+	("Org-Agenda (current day)" (org-agenda nil "a") "a"))
+       ("Prod"
+	("Uni Folder" (dired "~/UEMG") "u")
+	("Work Folder" (dired "~/Workspace") "w")
+	)
+       ("Other"
+	("Projects" project-switch-project "p")))))))
 
 
 (setq warning-minimum-level :error)
 
 (use-package srcery-theme
-  :ensure t
+  :ensure tx
   :config
   (load-theme 'srcery t))
 
+(setopt initial-buffer-choice #'enlight)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -36,10 +59,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("652f922b5c4fab704da86af3702cb9225005bcb18b8d0545cf9245b115798780" default))
+   '("652f922b5c4fab704da86af3702cb9225005bcb18b8d0545cf9245b115798780"
+     default))
+ '(inhibit-startup-screen t)
+ '(initial-scratch-message nil)
  '(org-agenda-files '("~/Org-Notes/agenda.org"))
- '(package-selected-packages
-   '(adoc-mode typescript-mode multiple-cursors tide auto-package-update vue-mode scss-mode web-mode qml-mode lua-mode helm-slime ac-slime slime org-bullets yeetube treemacs-all-the-icons treemacs-tab-bar linum-relative yasnippet dir-treeview flycheck cider company helm-lsp lsp-ui auto-complete org-modern lsp-mode helm pdf-tools magit)))
+ '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -152,8 +177,6 @@
 (global-set-key "\C-ct" 'sgml-close-tag)
 
 
-(setq org-default-notes-file "~/Org-Notes/init.org"
-      initial-buffer-choice org-default-notes-file)
 
 (use-package treemacs
   :ensure t)
