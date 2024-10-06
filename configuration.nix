@@ -6,6 +6,8 @@
       ./hardware-configuration.nix
     ];
 
+
+  xdg.portal.config.common.default = "*";
   hardware.opengl.enable = true;
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -41,6 +43,31 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+  };
+
+  environment.pathsToLink = [ "/libexec" ];
+
+
+  services.xserver = {
+    enable = true;
+
+    desktopManager = {
+      xterm.enable = false;
+    };
+   
+    displayManager = {
+        defaultSession = "none+i3";
+    };
+
+    windowManager.i3 = {
+      enable = true;
+      extraPackages = with pkgs; [
+        dmenu #application launcher most people use
+        i3status # gives you the default i3 status bar
+        i3lock #default i3 screen locker
+        i3blocks #if you are planning on using i3blocks over i3status
+     ];
+    };
   };
 
   services.pipewire.wireplumber.enable = true; 
@@ -104,31 +131,59 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lemos = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "libvirtd" "input" "audio"]; # Enable ‘sudo’ for the user.
+      extraGroups = ["adbusers" "wheel" "libvirtd" "input" "audio"]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
          tree
+	 xss-lock
 	 session-desktop-appimage
 	 sbcl
+	 dex
 	 geeqie
 	 transmission-qt
 	 firefox
+	 feh
 	 yt-dlp
          keepassxc
          cmus
+	 xorg.xinit
 	 mpv
+	 nitrogen
+	 flameshot
+	 volumeicon
 	 streamlink
       ];
       initialPassword = "pw123";
   };
+
+
+  #redshift stuff 
+
+  services.geoclue2.enable = true; 
+  location.provider = "geoclue2";
+
+  services.redshift = {
+    enable = true;
+    brightness = {
+      # Note the string values below.
+      day = "1";
+      night = "1";
+    };
+    temperature = {
+      day = 4500;
+      night = 2500;
+    };
+  };
+
   # List packages installed in system profile. To search, run:
 
   programs.zsh.enable = true;
 
-  programs.sway.enable = true;
-
   programs.thunar.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
+
+
+  programs.adb.enable = true;
 
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -141,8 +196,6 @@
      gcc
      waybar
      gammastep
-     swaybg
-     swayidle
      bemenu
      grim
      kexec-tools
@@ -152,10 +205,11 @@
      openvpn
      libarchive
      leiningen
-     wl-clipboard
      mako 
      jdk21
-     alacritty
+     xidlehook
+     android-tools
+     brightnessctl
      nodePackages.typescript
      nodePackages.vue-language-server
      nodePackages.vscode-langservers-extracted

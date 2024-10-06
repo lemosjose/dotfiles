@@ -15,7 +15,7 @@
   ];
 
   programs.waybar.enable = true; 
-  programs.firefox.enable = true;
+
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -47,8 +47,11 @@
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
-  programs.git.enable = true;
-
+  programs.git = {
+    enable = true;
+    userEmail = "devlemosjose@gmail.com";
+    userName = "lemosjose";
+  };
   programs.zsh = {
      enable = true;
      enableCompletion = true;
@@ -77,8 +80,9 @@
 
   home.pointerCursor = {
     gtk.enable = true; 
-    package = pkgs.vanilla-dmz; 
-    name = "Vanilla-DMZ";
+    package = pkgs.gnome.adwaita-icon-theme; 
+    name = "Adwaita";
+    size = 28;
   };
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "23.05";
