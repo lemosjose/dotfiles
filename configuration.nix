@@ -82,7 +82,6 @@
 
   ## runnning container stuff
   virtualisation.docker.enable = true;
-  virtualisation.waydroid.enable = true;
 
   ##vm stuff
   virtualisation.libvirtd.enable = true;
@@ -147,8 +146,13 @@
          cmus
 	 xorg.xinit
 	 mpv
+	 mplayer
 	 nitrogen
 	 flameshot
+	 zeal
+	 tokyonight-gtk-theme
+	 element-desktop
+	 hexchat
 	 volumeicon
 	 streamlink
       ];

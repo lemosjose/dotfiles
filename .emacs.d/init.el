@@ -46,12 +46,18 @@
 
 (setq warning-minimum-level :error)
 
-(use-package srcery-theme
-  :ensure tx
-  :config
-  (load-theme 'srcery t))
+(load-theme 'zenburn t)
 
 (setopt initial-buffer-choice #'enlight)
+
+
+(global-set-key (kbd "C-x w") 'elfeed)
+
+
+(setq elfeed-feeds
+      '("https://xkcd.com/atom.xml"
+        "https://lukesmith.xyz/index.xml"))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -63,8 +69,22 @@
      default))
  '(inhibit-startup-screen t)
  '(initial-scratch-message nil)
- '(org-agenda-files '("~/Org-Notes/agenda.org"))
- '(package-selected-packages nil))
+ '(org-agenda-files
+   '("/home/lemos/Org-Notes/uemg.org" "/home/lemos/Org-Notes/estudos.org"
+     "/home/lemos/Org-Notes/trabalho.org"))
+ '(package-selected-packages
+   '(ac-slime adoc-mode auto-dark auto-package-update cider cmake-mode
+	      company consult dap-mode dir-treeview elfeed-web
+	      emmet-mode emms emms-player-simple-mpv
+	      emms-player-spotify enlight evil flex-autopair helm-lsp
+	      helm-slime helm-xref ivy linum-relative lsp-pyright
+	      lsp-ui lua-mode magit multiple-cursors nlinum
+	      org-bullets org-modern pdf-tools persp-mode powerline
+	      projectile qml-mode request scss-mode srcery-theme
+	      telega tide treemacs-all-the-icons treemacs-tab-bar
+	      typescript-mode use-package vue-mode web-mode
+	      yasnippet-classic-snippets yasnippet-snippets yeetube
+	      zenburn-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -177,6 +197,11 @@
 (global-set-key "\C-ct" 'sgml-close-tag)
 
 
+;;Offline music
+(require 'emms-setup)
+(emms-all)
+
+(setq emms-player-list '(emms-player-mpv))
 
 (use-package treemacs
   :ensure t)
@@ -186,8 +211,11 @@
 
 (setq org-agenda-files (list  "~/Org-Notes/estudos.org"
 			      "~/Org-Notes/trabalho.org"
-			      "~/Org-Notes/uemg.org"))
+			      "~/Org-Notes/uemg.org"
+			      "~/Org-Notes/Novenas.org"))
 
+
+(setq backup-directory-alist            '((".*" . "~/.Trash")))
 
 (require 'powerline)
 (powerline-default-theme)

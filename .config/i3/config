@@ -34,10 +34,10 @@ exec --no-startup-id xidlehook \
   --timer 60 \
     'xrandr --output "$PRIMARY_DISPLAY" --brightness .1' \
     'xrandr --output "$PRIMARY_DISPLAY" --brightness 1' \
-  --timer 10 \
+  --timer 100 \
     'xrandr --output "$PRIMARY_DISPLAY" --brightness 1; i3lock' \
     '' \
-  --timer 20 \
+  --timer 300 \
     'systemctl suspend' \
     ''
 # NetworkManager is the most popular way to manage wireless networks on Linux,
