@@ -47,6 +47,13 @@
 
   environment.pathsToLink = [ "/libexec" ];
 
+  services.displayManager = {
+      defaultSession = "none+i3";
+      autoLogin = {
+          enable = true; 
+	  user = "lemos";
+      };
+  };
 
   services.xserver = {
     enable = true;
@@ -54,10 +61,8 @@
     desktopManager = {
       xterm.enable = false;
     };
-   
-    displayManager = {
-        defaultSession = "none+i3";
-    };
+
+
 
     windowManager.i3 = {
       enable = true;
@@ -104,7 +109,6 @@
     "steam"
     "steam-original"
     "steam-run"
-    "vscode"
     "spotify"
     "libretro-genesis-plus-gx"
     "libretro-snes9x"
@@ -216,7 +220,6 @@
      brightnessctl
      nodePackages.typescript
      nodePackages.vue-language-server
-     nodePackages.vscode-langservers-extracted
      (retroarch.override {
        cores = with libretro; [
           genesis-plus-gx
