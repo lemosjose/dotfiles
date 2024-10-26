@@ -41,6 +41,21 @@
     homeDirectory = "/home/lemos";
   };
 
+
+  #set default apps for stuff
+  
+  xdg.mimeApps = {
+    enable = true; 
+
+
+    associations.added = {
+      "application/pdf" = ["qpdfview.desktop"];
+      "x-scheme-handler/http" = "org.qutebrowser.qutebrowser.desktop";
+      "x-scheme-handler/https" = "org.qutebrowser.qutebrowser.desktop";
+      "x-scheme-handler/about" = "org.qutebrowser.qutebrowser.desktop";
+    };
+  }; 
+
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   #home.packages = with pkgs; [ steam ];
