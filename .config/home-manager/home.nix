@@ -16,6 +16,11 @@
 
   programs.waybar.enable = true; 
 
+  programs.zoxide.enable = true; 
+
+  programs.zoxide.enableZshIntegration = true;
+  programs.zoxide.enableFishIntegration = true;
+
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -50,9 +55,9 @@
 
     associations.added = {
       "application/pdf" = ["qpdfview.desktop"];
-      "x-scheme-handler/http" = "org.qutebrowser.qutebrowser.desktop";
-      "x-scheme-handler/https" = "org.qutebrowser.qutebrowser.desktop";
-      "x-scheme-handler/about" = "org.qutebrowser.qutebrowser.desktop";
+      "x-scheme-handler/http" = "firefox.desktop";
+      "x-scheme-handler/https" = "firefox.desktop";
+      "x-scheme-handler/about" = "firefox.desktop";
     };
   }; 
 

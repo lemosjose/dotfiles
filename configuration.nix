@@ -4,9 +4,12 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+
+      #notebook and powersave stuff 
+      ./laptop.nix
     ];
 
-
+  nixpkgs.config.allowUnfree = true;
   xdg.portal.config.common.default = "*";
   hardware.opengl.enable = true;
   # Use the systemd-boot EFI boot loader.
@@ -24,8 +27,12 @@
      powerline-symbols
   ];
 
-  #enable my wm stuff
- 
+  services.udev.enable = true; 
+
+  services.udev.packages = [
+     pkgs.android-udev-rules
+  ];
+
   xdg.portal.wlr.enable = true;
 
   security.polkit.enable = true;
@@ -47,13 +54,7 @@
 
   environment.pathsToLink = [ "/libexec" ];
 
-  services.displayManager = {
-      defaultSession = "none+i3";
-      autoLogin = {
-          enable = true; 
-	  user = "lemos";
-      };
-  };
+  services.displayManager.defaultSession = "none+i3";
 
   services.xserver = {
     enable = true;
@@ -61,8 +62,6 @@
     desktopManager = {
       xterm.enable = false;
     };
-
-
 
     windowManager.i3 = {
       enable = true;
@@ -87,6 +86,12 @@
 
   ## runnning container stuff
   virtualisation.docker.enable = true;
+  virtualisation.podman.enable = true;
+
+  virtualisation.docker.rootless = {
+    enable = true; 
+    setSocketVariable = true;
+  }; 
 
   ##vm stuff
   virtualisation.libvirtd.enable = true;
@@ -105,15 +110,6 @@
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
  
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "steam"
-    "steam-original"
-    "steam-run"
-    "spotify"
-    "libretro-genesis-plus-gx"
-    "libretro-snes9x"
-  ];
-  programs.steam.enable = true;
   programs.nix-ld.enable = true;
 
   #newer emacs for my work!
@@ -134,29 +130,43 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lemos = {
       isNormalUser = true;
-      extraGroups = ["adbusers" "wheel" "libvirtd" "input" "audio"]; # Enable ‘sudo’ for the user.
+      extraGroups = ["adbusers" "wheel" "libvirtd" "input" "audio" "docker"]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
          tree
 	 xss-lock
 	 session-desktop-appimage
 	 sbcl
+	 clojure-lsp
 	 dex
+	 docker-compose
 	 geeqie
 	 transmission-qt
 	 firefox
+	 firejail
 	 feh
+	 picom
+	 arandr
 	 yt-dlp
          keepassxc
          cmus
 	 xorg.xinit
+	 arandr
 	 mpv
+	 bottom
+	 konsole
+	 python312Full
+	 koodo-reader
 	 mplayer
+	 kitty
+	 palemoon-bin
 	 nitrogen
+	 scrcpy
 	 flameshot
 	 zeal
 	 tokyonight-gtk-theme
 	 element-desktop
 	 hexchat
+	 asciidoctor-with-extensions
 	 volumeicon
 	 streamlink
       ];
@@ -220,17 +230,6 @@
      brightnessctl
      nodePackages.typescript
      nodePackages.vue-language-server
-     (retroarch.override {
-       cores = with libretro; [
-          genesis-plus-gx
-	  snes9x
-	  flycast
-	  beetle-saturn
-	  citra
-	  dosbox
-	  nestopia
-       ];
-     })
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

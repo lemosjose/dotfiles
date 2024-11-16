@@ -46,6 +46,8 @@
 
 (setq warning-minimum-level :error)
 
+(setq make-backup-files nil)
+
 (load-theme 'zenburn t)
 
 (setopt initial-buffer-choice #'enlight)
@@ -53,6 +55,13 @@
 
 (global-set-key (kbd "C-x w") 'elfeed)
 
+
+(use-package livemarkup
+  :load-path "~/.emacs.d/lisp"
+  :config
+  (setq livemarkup-output-directory "/tmp"
+        livemarkup-close-buffer-delete-temp-files t)
+)
 
 (setq elfeed-feeds
       '("https://xkcd.com/atom.xml"
@@ -69,20 +78,18 @@
      default))
  '(inhibit-startup-screen t)
  '(initial-scratch-message nil)
- '(org-agenda-files
-   '("/home/lemos/Org-Notes/uemg.org" "/home/lemos/Org-Notes/estudos.org"
-     "/home/lemos/Org-Notes/trabalho.org"))
+ '(org-agenda-files nil)
  '(package-selected-packages
    '(ac-slime adoc-mode auto-dark auto-package-update cider cmake-mode
-	      company consult dap-mode dir-treeview elfeed-web
+	      company consult dap-mode dir-treeview elfeed-web elpy
 	      emmet-mode emms emms-player-simple-mpv
 	      emms-player-spotify enlight evil flex-autopair helm-lsp
 	      helm-slime helm-xref ivy linum-relative lsp-pyright
-	      lsp-ui lua-mode magit multiple-cursors nlinum
+	      lsp-ui lua-mode magit multiple-cursors nix-mode nlinum
 	      org-bullets org-modern pdf-tools persp-mode powerline
 	      projectile qml-mode request scss-mode srcery-theme
 	      telega tide treemacs-all-the-icons treemacs-tab-bar
-	      typescript-mode use-package vue-mode web-mode
+	      typescript-mode use-package vue-mode web-mode yaml-mode
 	      yasnippet-classic-snippets yasnippet-snippets yeetube
 	      zenburn-theme)))
 (custom-set-faces
@@ -126,6 +133,18 @@
 
 (add-hook 'qml-mode-hook' 'lsp)
 (add-to-list 'auto-mode-alist '(".qml". qml-mode))
+
+
+;; enable python stuff
+(elpy-enable)
+
+
+(use-package lsp-pyright
+  :ensure t
+  :custom (lsp-pyright-langserver-command "pyright") ;; or basedpyright
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
 
 (setq gc-cons-threshold (* 100 1024 1024)
       read/-process-output-max (* 1024 1024)

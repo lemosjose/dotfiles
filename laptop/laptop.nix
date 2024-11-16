@@ -2,6 +2,16 @@
 
 
 {
+          hardware.bluetooth.enable = true; 
+	  hardware.bluetooth.powerOnBoot = true; 
+
+
+	  services.udev.extraRules = '' 
+	    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="enabled"
+	  '';
+
+	  services.blueman.enable = true;
+
 	  services.auto-cpufreq.enable = true; 
 	  services.auto-cpufreq.settings = {
 		    battery = { 
@@ -10,8 +20,8 @@
 		    }; 
 
 		    charger = {
-			      governor = "powersave"; 
-			      turbo = "never";
+			      governor = "performance"; 
+			      turbo = "auto";
 		    }; 
 	  };
 
@@ -34,6 +44,9 @@
 		       intelBusId = "PCI:0:2:0"; 
 	     };
 	  };
+
+
+
 };
 
 } 
