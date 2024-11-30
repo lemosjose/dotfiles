@@ -54,7 +54,9 @@
 
   environment.pathsToLink = [ "/libexec" ];
 
-  services.displayManager.defaultSession = "none+i3";
+  services.displayManager = {
+    defaultSession = "none+i3";
+  };
 
   services.xserver = {
     enable = true;
@@ -62,6 +64,10 @@
     desktopManager = {
       xterm.enable = false;
     };
+
+    displayManager.sessionCommands = ''
+       sh ~/screen.sh
+    '';
 
     windowManager.i3 = {
       enable = true;
@@ -133,6 +139,7 @@
       extraGroups = ["adbusers" "wheel" "libvirtd" "input" "audio" "docker"]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
          tree
+	 tmux
 	 xss-lock
 	 session-desktop-appimage
 	 sbcl
@@ -168,6 +175,7 @@
 	 hexchat
 	 asciidoctor-with-extensions
 	 volumeicon
+	 postman
 	 streamlink
       ];
       initialPassword = "pw123";
@@ -212,10 +220,6 @@
      emacs-unstable
      nodejs
      gcc
-     waybar
-     gammastep
-     bemenu
-     grim
      kexec-tools
      texlive.combined.scheme-full
      qpdfview
@@ -223,7 +227,7 @@
      openvpn
      libarchive
      leiningen
-     mako 
+     mako
      jdk21
      xidlehook
      android-tools

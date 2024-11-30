@@ -14,7 +14,6 @@
     # ./nvim.nix
   ];
 
-  programs.waybar.enable = true; 
 
   programs.zoxide.enable = true; 
 

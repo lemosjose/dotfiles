@@ -7,7 +7,7 @@
 
 
 	  services.udev.extraRules = '' 
-	    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="enabled"
+	    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="disabled"
 	  '';
 
 	  services.blueman.enable = true;

@@ -44,12 +44,16 @@ exec --no-startup-id xidlehook \
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-exec --no-startup-id nitrogen --restore
+exec --no-startup-id feh --bg-scale Pictures/Wallpaper/river_scene.jpg
 
-exec --no-startup-id xrandr --output DP-1 --off
+exec --no-startup-id xrandr --output HDMI-1-1 -r 75
 
-exec --no-startup-id setxkbmap -option compose:ralt
+exec --no-startup-id setxkbmap br
 
+
+exec --no-startup-id xinput set-prop "ELAN0B00:00 04F3:30EA Touchpad" "libinput Disable While Typing Enabled" 1 
+
+exec --no-startup-id correct_layout.sh
 
 default_border pixel 0
 
@@ -68,7 +72,7 @@ floating_modifier $mod
 # move tiling windows via drag & drop by left-clicking into the title bar,
 # or left-clicking anywhere into the window while holding the floating modifier.
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -138,15 +142,15 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:Chat"
-set $ws2 "2:Browser"
+set $ws1 "1: Chat"
+set $ws2 "2: Browser"
 set $ws3 "3: Video"
 set $ws4 "4: Code"
-set $ws5 "5: Chromium"
+set $ws5 "5: Books"
 set $ws6 "6: University"
 set $ws7 "7: Reading"
 set $ws8 "8: Background"
-set $ws9 "9: Firefox"
+set $ws9 "9: Projects"
 set $ws10 "0: Extra"
 
 # switch to workspace
