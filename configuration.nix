@@ -6,16 +6,21 @@
       ./hardware-configuration.nix
 
       #notebook and powersave stuff 
-      ./laptop.nix
     ];
 
   nixpkgs.config.allowUnfree = true;
   xdg.portal.config.common.default = "*";
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = ["ntfs"];
+  boot.kernelPackages = pkgs.linuxPackages_latest.extend (lpFinal: lpPrev: {
+      cpupower = lpPrev.cpupower.overrideAttrs (old: {
+        nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.which ];
+        makeFlags = (old.makeFlags or []) ++ [ "INSTALL_NO_TRANSLATIONS=1" ];
+      });
+  });
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -37,11 +42,16 @@
 
   security.polkit.enable = true;
 
+  services.teamviewer.enable = true;
+
   #mounting my external hdd :)
   services.udisks2.enable = true;
 
   #i hate zen browser sometimes
   services.flatpak.enable = true;
+
+
+  powerManagement.cpuFreqGovernor = "performance";
 
   #enable pipewire as suggested in the manual
   security.rtkit.enable = true;
@@ -54,31 +64,12 @@
 
   environment.pathsToLink = [ "/libexec" ];
 
-  services.displayManager = {
-    defaultSession = "none+i3";
-  };
 
-  services.xserver = {
-    enable = true;
+  services.xserver.enable = true; 
 
-    desktopManager = {
-      xterm.enable = false;
-    };
+  services.displayManager.sddm.enable = true; 
 
-    displayManager.sessionCommands = ''
-       sh ~/screen.sh
-    '';
-
-    windowManager.i3 = {
-      enable = true;
-      extraPackages = with pkgs; [
-        dmenu #application launcher most people use
-        i3status # gives you the default i3 status bar
-        i3lock #default i3 screen locker
-        i3blocks #if you are planning on using i3blocks over i3status
-     ];
-    };
-  };
+  services.desktopManager.plasma6.enable = true;
 
   services.pipewire.wireplumber.enable = true; 
  
@@ -147,7 +138,8 @@
 	 dex
 	 docker-compose
 	 geeqie
-	 transmission-qt
+	 transmission_4-qt
+	 firefox-devedition
 	 firefox
 	 firejail
 	 feh
@@ -170,9 +162,11 @@
 	 scrcpy
 	 flameshot
 	 zeal
+	 gtk3
 	 tokyonight-gtk-theme
 	 element-desktop
 	 hexchat
+	 pipenv
 	 asciidoctor-with-extensions
 	 volumeicon
 	 postman
@@ -229,6 +223,7 @@
      leiningen
      mako
      jdk21
+     which
      xidlehook
      android-tools
      brightnessctl

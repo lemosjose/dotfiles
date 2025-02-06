@@ -14,12 +14,7 @@
     # ./nvim.nix
   ];
 
-
-  programs.zoxide.enable = true; 
-
-  programs.zoxide.enableZshIntegration = true;
-  programs.zoxide.enableFishIntegration = true;
-
+  
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -58,7 +53,12 @@
       "x-scheme-handler/https" = "firefox.desktop";
       "x-scheme-handler/about" = "firefox.desktop";
     };
-  }; 
+  };
+
+  programs.zoxide.enable = true;
+
+  programs.zoxide.enableZshIntegration = true;
+  programs.zoxide.enableFishIntegration = true; 
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
@@ -79,6 +79,7 @@
      shellAliases = {
         ll = "ls -l";
 	update = "sudo nixos-rebuild switch";
+	cd = "z";
      };
      history = {
         size = 10000;
