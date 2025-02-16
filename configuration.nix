@@ -24,6 +24,8 @@
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
+  programs.dconf.enable = true;
+
   #fonts fixing 
 
   fonts.packages = with pkgs; [
@@ -64,12 +66,11 @@
 
   environment.pathsToLink = [ "/libexec" ];
 
-
-  services.xserver.enable = true; 
-
-  services.displayManager.sddm.enable = true; 
-
-  services.desktopManager.plasma6.enable = true;
+  services.xserver = { 
+    enable = true; 
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
 
   services.pipewire.wireplumber.enable = true; 
  
@@ -137,12 +138,14 @@
 	 clojure-lsp
 	 dex
 	 docker-compose
+	 gnome-tweaks
 	 geeqie
 	 transmission_4-qt
 	 firefox-devedition
 	 firefox
 	 firejail
 	 feh
+	 ptyxis
 	 picom
 	 arandr
 	 yt-dlp
@@ -161,12 +164,14 @@
 	 nitrogen
 	 scrcpy
 	 flameshot
+	 gnomeExtensions.pop-shell
 	 zeal
 	 gtk3
 	 tokyonight-gtk-theme
 	 element-desktop
 	 hexchat
 	 pipenv
+	 python312Packages.pkgconfig
 	 asciidoctor-with-extensions
 	 volumeicon
 	 postman
@@ -224,7 +229,9 @@
      mako
      jdk21
      which
+     rPackages.pkgconfig 
      xidlehook
+     cairo 
      android-tools
      brightnessctl
      nodePackages.typescript

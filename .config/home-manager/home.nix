@@ -13,7 +13,6 @@
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
   ];
-
   
   nixpkgs = {
     # You can add overlays here
@@ -80,6 +79,7 @@
         ll = "ls -l";
 	update = "sudo nixos-rebuild switch";
 	cd = "z";
+	pythonenv = "nix-shell -p gobject-introspection gtk3";
      };
      history = {
         size = 10000;
