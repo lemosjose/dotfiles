@@ -83,16 +83,16 @@
  '(package-selected-packages
    '(ac-slime adoc-mode auto-dark auto-package-update cider cmake-mode
 	      company consult dap-mode dir-treeview dockerfile-mode
-	      elfeed-web elpy emmet-mode emms emms-player-simple-mpv
-	      emms-player-spotify enlight evil flex-autopair helm-lsp
-	      helm-slime helm-xref ivy linum-relative lsp-pyright
-	      lsp-ui lua-mode magit multiple-cursors nix-mode nlinum
-	      org-bullets org-modern pdf-tools persp-mode powerline
-	      projectile qml-mode request scss-mode srcery-theme
-	      telega tide treemacs-all-the-icons treemacs-tab-bar
-	      typescript-mode use-package vue-mode web-mode
-	      yasnippet-classic-snippets yasnippet-snippets yeetube
-	      zenburn-theme)))
+	      eldoc-box elfeed-web elpy emmet-mode emms
+	      emms-player-simple-mpv emms-player-spotify enlight evil
+	      flex-autopair helm-lsp helm-slime helm-xref ivy
+	      linum-relative lsp-pyright lsp-ui lua-mode magit
+	      multiple-cursors nix-mode nlinum org-bullets org-modern
+	      pdf-tools persp-mode powerline projectile qml-mode
+	      request rustic scss-mode srcery-theme telega tide
+	      treemacs-all-the-icons treemacs-tab-bar typescript-mode
+	      use-package vue-mode web-mode yasnippet-classic-snippets
+	      yasnippet-snippets yeetube zenburn-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -232,15 +232,15 @@
 
 
 (setq org-agenda-files (list  "~/Org-Notes/estudos.org"
-			      "~/Org-Notes/trabalho.org"
-			      "~/Org-Notes/uemg.org"
-			      "~/Org-Notes/Novenas.org"))
+			      "~/Org-Notes/trabalho.org"))
 
 
 (setq backup-directory-alist            '((".*" . "~/.Trash")))
 
 (require 'powerline)
 (powerline-default-theme)
+
+(require 'eldoc-box)
 
 (treemacs)
 (pdf-tools-install)
