@@ -4,10 +4,10 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-
       #notebook and powersave stuff 
     ];
 
+  hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
   xdg.portal.config.common.default = "*";
   hardware.graphics.enable = true;
@@ -15,7 +15,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = ["ntfs"];
-  boot.kernelPackages = pkgs.linuxPackages_latest.extend (lpFinal: lpPrev: {
+  boot.kernelPackages = pkgs.linuxPackages.extend (lpFinal: lpPrev: {
       cpupower = lpPrev.cpupower.overrideAttrs (old: {
         nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.which ];
         makeFlags = (old.makeFlags or []) ++ [ "INSTALL_NO_TRANSLATIONS=1" ];
@@ -25,6 +25,7 @@
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   programs.dconf.enable = true;
+  programs.nix-ld.enable = true;
 
   #fonts fixing 
 
@@ -95,6 +96,9 @@
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
 
+  virtualisation.spiceUSBRedirection.enable = true;
+
+
   #run unpatched binaries
 
   # Set your time zone.
@@ -108,7 +112,6 @@
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
  
-  programs.nix-ld.enable = true;
 
   #newer emacs for my work!
   services.emacs.package = pkgs.emacs-unstable;
@@ -133,6 +136,7 @@
          tree
 	 tmux
 	 xss-lock
+	 pipx
 	 session-desktop-appimage
 	 sbcl
 	 clojure-lsp
@@ -143,12 +147,15 @@
 	 transmission_4-qt
 	 firefox-devedition
 	 firefox
+	 librewolf
 	 firejail
 	 feh
 	 ptyxis
 	 picom
 	 arandr
+	 devbox
 	 yt-dlp
+	 telegram-desktop
          keepassxc
          cmus
 	 xorg.xinit
@@ -163,6 +170,7 @@
 	 palemoon-bin
 	 nitrogen
 	 scrcpy
+	 alsa-utils
 	 flameshot
 	 gnomeExtensions.pop-shell
 	 zeal
@@ -170,6 +178,7 @@
 	 tokyonight-gtk-theme
 	 element-desktop
 	 hexchat
+	 nix-index
 	 pipenv
 	 python312Packages.pkgconfig
 	 asciidoctor-with-extensions
@@ -222,6 +231,7 @@
      kexec-tools
      texlive.combined.scheme-full
      qpdfview
+     input-remapper
      slurp
      openvpn
      libarchive
