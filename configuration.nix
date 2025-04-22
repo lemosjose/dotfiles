@@ -15,12 +15,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = ["ntfs"];
-  boot.kernelPackages = pkgs.linuxPackages.extend (lpFinal: lpPrev: {
-      cpupower = lpPrev.cpupower.overrideAttrs (old: {
-        nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.which ];
-        makeFlags = (old.makeFlags or []) ++ [ "INSTALL_NO_TRANSLATIONS=1" ];
-      });
-  });
+#  boot.kernelPackages = pkgs.linuxPackages.extend (lpFinal: lpPrev: {
+ #     cpupower = lpPrev.cpupower.overrideAttrs (old: {
+ #       nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.which ];
+ #       makeFlags = (old.makeFlags or []) ++ [ "INSTALL_NO_TRANSLATIONS=1" ];
+ #     });
+ # });
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -47,6 +47,9 @@
 
   services.teamviewer.enable = true;
 
+  services.touchegg.enable = true; 
+
+
   #mounting my external hdd :)
   services.udisks2.enable = true;
 
@@ -66,6 +69,7 @@
   };
 
   environment.pathsToLink = [ "/libexec" ];
+  environment.localBinInPath = true;
 
   services.xserver = { 
     enable = true; 
@@ -139,13 +143,14 @@
 	 pipx
 	 session-desktop-appimage
 	 sbcl
+	 multipath-tools 
+	 openssl
 	 clojure-lsp
 	 dex
 	 docker-compose
 	 gnome-tweaks
 	 geeqie
 	 transmission_4-qt
-	 firefox-devedition
 	 firefox
 	 librewolf
 	 firejail
@@ -158,11 +163,10 @@
 	 telegram-desktop
          keepassxc
          cmus
-	 xorg.xinit
 	 arandr
 	 mpv
 	 bottom
-	 konsole
+	 zed-editor
 	 python312Full
 	 koodo-reader
 	 mplayer
@@ -172,7 +176,6 @@
 	 scrcpy
 	 alsa-utils
 	 flameshot
-	 gnomeExtensions.pop-shell
 	 zeal
 	 gtk3
 	 tokyonight-gtk-theme
@@ -245,7 +248,6 @@
      android-tools
      brightnessctl
      nodePackages.typescript
-     nodePackages.vue-language-server
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -257,7 +259,13 @@
   # };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall = { 
+     enable = true;
+     allowedTCPPorts = [ 8080
+                         9090
+                         1234
+     ];
+  };
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

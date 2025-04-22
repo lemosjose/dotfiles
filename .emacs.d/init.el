@@ -39,6 +39,7 @@
        ("Prod"
 	("Uni Folder" (dired "~/UEMG") "u")
 	("Work Folder" (dired "~/Workspace") "w")
+	("Routine" (find-file "~/Org-Notes/rotina.org") "w")
 	)
        ("Other"
 	("Projects" project-switch-project "p")))))))
@@ -88,11 +89,12 @@
 	      flex-autopair helm-lsp helm-slime helm-xref ivy
 	      linum-relative lsp-pyright lsp-ui lua-mode magit
 	      multiple-cursors nix-mode nlinum org-bullets org-modern
-	      pdf-tools persp-mode powerline projectile qml-mode
-	      request rustic scss-mode srcery-theme telega tide
-	      treemacs-all-the-icons treemacs-tab-bar typescript-mode
-	      use-package vue-mode web-mode yasnippet-classic-snippets
-	      yasnippet-snippets yeetube zenburn-theme)))
+	      pdf-tools persp-mode poetry powerline projectile
+	      qml-mode request rustic scss-mode srcery-theme telega
+	      tide treemacs-all-the-icons treemacs-tab-bar
+	      typescript-mode use-package vue-mode web-mode
+	      yasnippet-classic-snippets yasnippet-snippets yeetube
+	      zenburn-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -113,6 +115,8 @@
 (require 'lsp-mode)
 
 (delete-selection-mode 1)
+
+(scroll-bar-mode -1)
 
 
 (helm-mode)
@@ -184,6 +188,20 @@
 (setq package-list '(dap-mode typescript-mode))
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
+
+(use-package aider
+  :config
+  ;; For latest claude sonnet model
+  (setq aider-args '("--model" "sonnet"))
+  (setenv "ANTHROPIC_API_KEY" anthropic-api-key)
+  ;; Or chatgpt model
+  ;; (setq aider-args '("--model" "o3-mini"))
+  ;; (setenv "OPENAI_API_KEY" <your-openai-api-key>)
+  ;; Or use your personal config file
+  ;; (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
+  ;; ;;
+  ;; Optional: Set a key binding for the transient menu
+  (global-set-key (kbd "C-c a") 'aider-transient-menu))
 
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
