@@ -4,7 +4,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      #notebook and powersave stuff 
+      ./packages.nix
+      ./gnome.nix
     ];
 
   hardware.enableAllFirmware = true;
@@ -45,13 +46,13 @@
 
   security.polkit.enable = true;
 
-  services.teamviewer.enable = true;
-
   services.touchegg.enable = true; 
 
 
   #mounting my external hdd :)
   services.udisks2.enable = true;
+
+  xdg.portal.xdgOpenUsePortal = true;
 
   #i hate zen browser sometimes
   services.flatpak.enable = true;
@@ -70,12 +71,6 @@
 
   environment.pathsToLink = [ "/libexec" ];
   environment.localBinInPath = true;
-
-  services.xserver = { 
-    enable = true; 
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-  };
 
   services.pipewire.wireplumber.enable = true; 
  
@@ -102,20 +97,9 @@
 
   virtualisation.spiceUSBRedirection.enable = true;
 
-
-  #run unpatched binaries
-
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
 
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
- 
 
   #newer emacs for my work!
   services.emacs.package = pkgs.emacs-unstable;
@@ -132,86 +116,6 @@
     }))
   ];
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.lemos = {
-      isNormalUser = true;
-      extraGroups = ["adbusers" "wheel" "libvirtd" "input" "audio" "docker"]; # Enable ‘sudo’ for the user.
-      packages = with pkgs; [
-         tree
-	 tmux
-	 xss-lock
-	 pipx
-	 session-desktop-appimage
-	 sbcl
-	 multipath-tools 
-	 openssl
-	 clojure-lsp
-	 dex
-	 docker-compose
-	 gnome-tweaks
-	 geeqie
-	 transmission_4-qt
-	 firefox
-	 librewolf
-	 firejail
-	 feh
-	 ptyxis
-	 picom
-	 arandr
-	 devbox
-	 yt-dlp
-	 telegram-desktop
-         keepassxc
-         cmus
-	 arandr
-	 mpv
-	 bottom
-	 zed-editor
-	 python312Full
-	 koodo-reader
-	 mplayer
-	 kitty
-	 palemoon-bin
-	 nitrogen
-	 scrcpy
-	 alsa-utils
-	 flameshot
-	 zeal
-	 gtk3
-	 tokyonight-gtk-theme
-	 element-desktop
-	 hexchat
-	 nix-index
-	 pipenv
-	 python312Packages.pkgconfig
-	 asciidoctor-with-extensions
-	 volumeicon
-	 postman
-	 streamlink
-      ];
-      initialPassword = "pw123";
-  };
-
-
-  #redshift stuff 
-
-  services.geoclue2.enable = true; 
-  location.provider = "geoclue2";
-
-  services.redshift = {
-    enable = true;
-    brightness = {
-      # Note the string values below.
-      day = "1";
-      night = "1";
-    };
-    temperature = {
-      day = 4500;
-      night = 2500;
-    };
-  };
-
-  # List packages installed in system profile. To search, run:
 
   programs.zsh.enable = true;
 
@@ -223,32 +127,6 @@
   programs.adb.enable = true;
 
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-     wget
-     kdePackages.ark
-     thunderbird
-     emacs-unstable
-     nodejs
-     gcc
-     kexec-tools
-     texlive.combined.scheme-full
-     qpdfview
-     input-remapper
-     slurp
-     openvpn
-     libarchive
-     leiningen
-     mako
-     jdk21
-     which
-     rPackages.pkgconfig 
-     xidlehook
-     cairo 
-     android-tools
-     brightnessctl
-     nodePackages.typescript
-  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
