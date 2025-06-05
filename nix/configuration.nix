@@ -13,7 +13,19 @@
   xdg.portal.config.common.default = "*";
   hardware.graphics.enable = true;
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = { 
+     enable = true; 
+     memtest86.enable = true;
+  };
+
+  boot.kernelParams = [
+    "amdgpu.dcdebugmask=0x10"
+    "amdgpu.dpm=0"
+    "pcie_aspm=off"
+  ];
+
+  boot.kernelPackages = pkgs.linuxPackages_lts;
+
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = ["ntfs"];
 #  boot.kernelPackages = pkgs.linuxPackages.extend (lpFinal: lpPrev: {
@@ -83,13 +95,10 @@
 
 
   ## runnning container stuff
-  virtualisation.docker.enable = true;
-  virtualisation.podman.enable = true;
-
-  virtualisation.docker.rootless = {
-    enable = true; 
-    setSocketVariable = true;
-  }; 
+  virtualisation.podman = {
+       enable = true;
+       dockerCompat = true;
+  };
 
   ##vm stuff
   virtualisation.libvirtd.enable = true;

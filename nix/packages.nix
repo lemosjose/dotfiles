@@ -9,7 +9,10 @@
       emacs-unstable
       nodejs
       gcc
+      ffmpeg-full
       kexec-tools
+      distrobox
+      podman-compose
       texlive.combined.scheme-full
       kdePackages.okular
       input-remapper
@@ -30,29 +33,32 @@
 
    users.users.lemos = {
       isNormalUser = true;
-      extraGroups = ["adbusers" "wheel" "libvirtd" "input" "audio" "docker"]; # Enable ‘sudo’ for the user.
+      extraGroups = ["adbusers" "wheel" "libvirtd" "input" "audio" ]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
          tree
 	 gopls
+	 obs-studio
 	 kdePackages.kdenlive
 	 tmux
 	 xss-lock
 	 pipx
 	 session-desktop-appimage
 	 sbcl
+	 zip
 	 multipath-tools 
 	 openssl
 	 clojure-lsp
 	 dex
-	 docker-compose
+	 gimp
 	 gnome-tweaks
 	 geeqie
+	 audacity
 	 transmission_4-qt
 	 firefox
-	 telegram-desktop
 	 librewolf
 	 firejail
 	 feh
+	 unzip
 	 ptyxis
 	 picom
 	 arandr
@@ -67,6 +73,7 @@
 	 python312Full
 	 koodo-reader
 	 mplayer
+	 vlc
 	 kitty
 	 palemoon-bin
 	 nitrogen
