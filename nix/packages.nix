@@ -37,12 +37,12 @@
       packages = with pkgs; [
          tree
 	 gopls
-	 obs-studio
-	 kdePackages.kdenlive
+	 go
 	 tmux
 	 xss-lock
+	 telegram-desktop
 	 pipx
-	 session-desktop-appimage
+	 kdePackages.okular
 	 sbcl
 	 zip
 	 multipath-tools 
@@ -52,11 +52,8 @@
 	 gimp
 	 gnome-tweaks
 	 geeqie
-	 audacity
 	 transmission_4-qt
 	 firefox
-	 librewolf
-	 firejail
 	 feh
 	 unzip
 	 ptyxis
@@ -65,8 +62,6 @@
 	 devbox
 	 yt-dlp
          keepassxc
-         cmus
-	 arandr
 	 mpv
 	 bottom
 	 zed-editor
@@ -76,10 +71,8 @@
 	 vlc
 	 kitty
 	 palemoon-bin
-	 nitrogen
 	 scrcpy
 	 alsa-utils
-	 flameshot
 	 zeal
 	 gtk3
 	 tokyonight-gtk-theme
@@ -89,11 +82,10 @@
 	 pipenv
 	 python312Packages.pkgconfig
 	 asciidoctor-with-extensions
-	 volumeicon
 	 postman
 	 streamlink
       ];
-      initialPassword = "pw123";
+      hashedPassword = "$y$j9T$ILvyeB3rSFT7yiMgx6xBh/$O3qkgsba6AcXEwtzfu2v9aWgVF.aw7F9SBoa/Lciji6";
    };
 
 }

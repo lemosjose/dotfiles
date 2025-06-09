@@ -6,29 +6,52 @@
       ./hardware-configuration.nix
       ./packages.nix
       ./gnome.nix
+      #My second Playstation 
+      ./gaming/gaming.nix
     ];
 
-  hardware.enableAllFirmware = true;
-  nixpkgs.config.allowUnfree = true;
-  xdg.portal.config.common.default = "*";
-  hardware.graphics.enable = true;
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot = { 
-     enable = true; 
-     memtest86.enable = true;
+  hardware = {
+      enableAllFirmware = true; 
+
+      graphics.enable = true;
   };
 
-  boot.kernelParams = [
-    "amdgpu.dcdebugmask=0x10"
-    "amdgpu.dpm=0"
-    "pcie_aspm=off"
-  ];
+  #nixpkgs.config.allowUnfree = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_lts;
+  nixpkgs = { 
+     config.allowUnfree = true;
+     overlays = [
+        (import (builtins.fetchTarball {
+            url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+        }))
+    ];
 
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.supportedFilesystems = ["ntfs"];
-#  boot.kernelPackages = pkgs.linuxPackages.extend (lpFinal: lpPrev: {
+  };
+
+  boot = {
+     loader.systemd-boot = { 
+          enable = true; 
+	  memtest86.enable = true;
+     };
+     loader.efi.canTouchEfiVariables = true;
+
+     plymouth.enable = true; 
+
+     kernelParams = [
+         "pcie_aspm=off"
+	 "quiet"
+	 "splash"
+     ];
+
+     kernelPackages = pkgs.linuxPackages_latest;
+
+
+
+     supportedFilesystems = ["ntfs"];  
+  };
+
+  ##backup for when emacs breaks with some kernel stuff, i don't know why it happens 
+ # boot.kernelPackages = pkgs.linuxPackages.extend (lpFinal: lpPrev: {
  #     cpupower = lpPrev.cpupower.overrideAttrs (old: {
  #       nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.which ];
  #       makeFlags = (old.makeFlags or []) ++ [ "INSTALL_NO_TRANSLATIONS=1" ];
@@ -37,8 +60,16 @@
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  programs.dconf.enable = true;
-  programs.nix-ld.enable = true;
+  programs = { 
+      dconf.enable = true; 
+      #spooky!
+      nix-ld.enable = true;
+      virt-manager.enable = true;
+      adb.enable = true;
+
+      #just to remove the warning 
+      zsh.enable = true; 
+  };
 
   #fonts fixing 
 
@@ -48,123 +79,95 @@
      powerline-symbols
   ];
 
-  services.udev.enable = true; 
+  services = {
+      udev = {
+          enable = true; 
+	  packages = [ pkgs.android-udev-rules ];
+      };
 
-  services.udev.packages = [
-     pkgs.android-udev-rules
-  ];
+      gvfs.enable = true; 
 
-  xdg.portal.wlr.enable = true;
+      udisks2.enable = true; 
 
-  security.polkit.enable = true;
+      tumbler.enable = true;
 
-  services.touchegg.enable = true; 
+      devmon.enable = true;
 
+      touchegg.enable = true;
 
-  #mounting my external hdd :)
-  services.udisks2.enable = true;
+      flatpak.enable = true;
 
-  xdg.portal.xdgOpenUsePortal = true;
+      emacs.package = pkgs.emacs-unstable;
 
-  #i hate zen browser sometimes
-  services.flatpak.enable = true;
+      pipewire = {
+          enable = true;
+          wireplumber.enable = true; 
 
+	  alsa.enable = true; 
+	  alsa.support32Bit = true; 
+	  pulse.enable = true;
+      };
+  };
+
+  xdg.portal = { 
+      wlr.enable = true;
+      xdgOpenUsePortal = true;
+      config.common.default = "*";
+  };
+
+  security = {
+      polkit.enable = true;
+      rtkit.enable = true;
+  };
 
   powerManagement.cpuFreqGovernor = "performance";
 
-  #enable pipewire as suggested in the manual
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+
+  environment = { 
+      pathsToLink = [ "/libexec" ];
+      localBinInPath = true;
   };
 
-  environment.pathsToLink = [ "/libexec" ];
-  environment.localBinInPath = true;
+  virtualisation = {
+       podman = {
+          enable = true;
+          dockerCompat = true;
+       }; 
 
-  services.pipewire.wireplumber.enable = true; 
- 
-  #Prettying my hostname with 'Garras da Patrulha' Characters
-  networking.hostName = "tizil";
-  
-  # Pick only ONE of the available wireless options
-  networking.wireless.iwd.enable = true;  # Enables wireless support via wpa_supplicant.
+       libvirtd.enable = true;
 
-
-
-  ## runnning container stuff
-  virtualisation.podman = {
-       enable = true;
-       dockerCompat = true;
+       spiceUSBRedirection.enable = true;
   };
 
-  ##vm stuff
-  virtualisation.libvirtd.enable = true;
-  programs.virt-manager.enable = true;
 
-  virtualisation.spiceUSBRedirection.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
-
-
-  #newer emacs for my work!
-  services.emacs.package = pkgs.emacs-unstable;
   
-
-  
-  services.gvfs.enable = true;
-  services.tumbler.enable = true;
-  services.devmon.enable = true;
-
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
-    }))
-  ];
-
-
-  programs.zsh.enable = true;
-
-  programs.thunar.enable = true;
-
   users.defaultUserShell = pkgs.zsh;
 
 
-  programs.adb.enable = true;
-
-  # $ nix search wget
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
   #   enable = true;
   #   enableSSHSupport = true;
   # };
 
-  # Open ports in the firewall.
-  networking.firewall = { 
-     enable = true;
-     allowedTCPPorts = [ 8080
-                         9090
-                         1234
-     ];
+  #Garras da patrulha hostname and networking
+  networking = {
+      hostName = "tizil";
+      wireless.iwd.enable = true; 
+      firewall = { 
+         enable = true;
+	 allowedTCPPorts = [ 8080
+	                     9090
+                             1234
+                           ];
+     };
   };
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  #
-  # This value being lower than the current NixOS release does NOT mean your system is
-  # out of date, out of support, or vulnerable.
-  #
-  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
-  # and migrated your data accordingly.
-  #
-  # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "23.11"; # Did you read the comment?
 
 }

@@ -47,18 +47,19 @@
 
 
     associations.added = {
-      "application/pdf" = ["qpdfview.desktop"];
+      "application/pdf" = ["okular.desktop"];
       "x-scheme-handler/http" = "firefox.desktop";
       "x-scheme-handler/https" = "firefox.desktop";
       "x-scheme-handler/about" = "firefox.desktop";
     };
   };
 
-  programs.zoxide.enable = true;
+  programs.zoxide = {
+      enable = true;
 
-  programs.zoxide.enableZshIntegration = true;
-  programs.zoxide.enableFishIntegration = true; 
-
+      enableZshIntegration = true;
+      enableFishIntegration = true; 
+  };
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   #home.packages = with pkgs; [ steam ];
@@ -80,6 +81,7 @@
 	update = "sudo nixos-rebuild switch";
 	cd = "z";
 	pythonenv = "nix-shell -p gobject-introspection gtk3";
+	enterDev = "nix-shell nix/shell.nix";
      };
      history = {
         size = 10000;
@@ -100,7 +102,7 @@
 
   home.pointerCursor = {
     gtk.enable = true; 
-    package = pkgs.gnome.adwaita-icon-theme; 
+    package = pkgs.adwaita-icon-theme; 
     name = "Adwaita";
     size = 28;
   };
