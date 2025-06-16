@@ -19,7 +19,37 @@
                nixos.tags = [ "Playstation" ];
 	   };
 
+	   boot = { 
+	       kernelParams = [
+	           "quiet"
+		   "splash"
+		   "pcie_aspm=off"
+	       ];
 
+	       plymouth.enable = true;
+
+	       kernelPackages = pkgs.linuxPackages_latest;
+
+	       supportedFilesystems = ["ntfs"];
+
+	       initrd.kernelModules = [ "amdgpu" ];
+	   };
+
+	   hardware = { 
+	       enableAllFirmware = true;
+
+	       graphics = {
+	           enable = true;
+		   enable32Bit = true;
+		   extraPackages = with pkgs; [vulkan-loader vulkan-tools mesa];
+	       };
+	   };
+
+	   fileSystems."/home/Travis/Games" = 
+	   {
+	       device = "/dev/disk/by-uuid/6e1a9d23-614a-4cf6-8f20-6c430a03d234";
+	       fsType = "ext4";
+	   };
 	   networking = {
 	       wireless.iwd.enable = true;
 	       dhcpcd.enable = true;
@@ -34,6 +64,11 @@
 		    alsa.support32Bit = true;
 		    pulse.enable = true;
 	        };
+
+		xserver = { 
+		   enable = true; 
+		   videoDrivers = [ "amdgpu" ];
+		};
 
 		gvfs.enable = true; 
 		devmon.enable = true;
@@ -70,6 +105,8 @@
 	       libretro.genesis-plus-gx
 	       retroarchFull
 	       neovim
+	       mesa
+	       vulkan-tools
 	   ];
 
 	   users.users.Travis = { 

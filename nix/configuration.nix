@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
 
+let 
+   home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz;
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -8,6 +11,7 @@
       ./gnome.nix
       #My second Playstation 
       ./gaming/gaming.nix
+      (import "${home-manager}/nixos")
     ];
 
   hardware = {
@@ -20,12 +24,6 @@
 
   nixpkgs = { 
      config.allowUnfree = true;
-     overlays = [
-        (import (builtins.fetchTarball {
-            url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
-        }))
-    ];
-
   };
 
   boot = {
@@ -33,6 +31,7 @@
           enable = true; 
 	  memtest86.enable = true;
      };
+
      loader.efi.canTouchEfiVariables = true;
 
      plymouth.enable = true; 
@@ -41,10 +40,13 @@
          "pcie_aspm=off"
 	 "quiet"
 	 "splash"
+	 "amdgpu.runpm=0"
+	 "iwlwifi.11n_disable=1"
      ];
 
      kernelPackages = pkgs.linuxPackages_latest;
 
+     initrd.kernelModules = [ "amdgpu" ];
 
 
      supportedFilesystems = ["ntfs"];  
@@ -67,8 +69,15 @@
       virt-manager.enable = true;
       adb.enable = true;
 
+      gamemode.enable = true;
+
       #just to remove the warning 
       zsh.enable = true; 
+
+      kdeconnect = { 
+         enable = true; 
+	 package = pkgs.gnomeExtensions.gsconnect;
+      };
   };
 
   #fonts fixing 
@@ -97,8 +106,6 @@
 
       flatpak.enable = true;
 
-      emacs.package = pkgs.emacs-unstable;
-
       pipewire = {
           enable = true;
           wireplumber.enable = true; 
@@ -106,6 +113,11 @@
 	  alsa.enable = true; 
 	  alsa.support32Bit = true; 
 	  pulse.enable = true;
+      };
+
+      xserver = { 
+         enable = true; 
+	 videoDrivers = [ "amdgpu" ];
       };
   };
 
@@ -156,7 +168,7 @@
   #Garras da patrulha hostname and networking
   networking = {
       hostName = "tizil";
-      wireless.iwd.enable = true; 
+      networkmanager.enable = true;
       firewall = { 
          enable = true;
 	 allowedTCPPorts = [ 8080

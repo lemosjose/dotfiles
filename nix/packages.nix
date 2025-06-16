@@ -6,7 +6,6 @@
       wget
       kdePackages.ark
       thunderbird
-      emacs-unstable
       nodejs
       gcc
       ffmpeg-full
@@ -58,6 +57,7 @@
 	 unzip
 	 ptyxis
 	 picom
+	 emacs
 	 arandr
 	 devbox
 	 yt-dlp
