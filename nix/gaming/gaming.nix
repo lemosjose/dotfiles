@@ -44,12 +44,7 @@
 		   extraPackages = with pkgs; [vulkan-loader vulkan-tools mesa];
 	       };
 	   };
-
-	   fileSystems."/home/Travis/Games" = 
-	   {
-	       device = "/dev/disk/by-uuid/6e1a9d23-614a-4cf6-8f20-6c430a03d234";
-	       fsType = "ext4";
-	   };
+	   
 	   networking = {
 	       wireless.iwd.enable = true;
 	       dhcpcd.enable = true;

@@ -44,10 +44,9 @@ in
 	 "iwlwifi.11n_disable=1"
      ];
 
-     kernelPackages = pkgs.linuxPackages_latest;
-
      initrd.kernelModules = [ "amdgpu" ];
 
+     kernelPackages = pkgs.linuxPackages_latest;
 
      supportedFilesystems = ["ntfs"];  
   };
