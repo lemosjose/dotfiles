@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let 
    home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz;
 in
@@ -12,6 +11,7 @@ in
       #My second Playstation 
       ./gaming/gaming.nix
       (import "${home-manager}/nixos")
+      ./home/lemos.nix
     ];
 
   hardware = {
@@ -40,13 +40,11 @@ in
          "pcie_aspm=off"
 	 "quiet"
 	 "splash"
-	 "amdgpu.runpm=0"
-	 "iwlwifi.11n_disable=1"
      ];
 
      initrd.kernelModules = [ "amdgpu" ];
 
-     kernelPackages = pkgs.linuxPackages_latest;
+     kernelPackages = pkgs.linuxPackages_6_6;
 
      supportedFilesystems = ["ntfs"];  
   };
@@ -90,7 +88,7 @@ in
   services = {
       udev = {
           enable = true; 
-	  packages = [ pkgs.android-udev-rules ];
+	  packages = with pkgs; [ android-udev-rules gnome-settings-daemon];
       };
 
       gvfs.enable = true; 

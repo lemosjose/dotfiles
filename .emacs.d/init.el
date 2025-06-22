@@ -37,9 +37,7 @@
      '(("Org Mode"
 	("Org-Agenda (current day)" (org-agenda nil "a") "a"))
        ("Prod"
-	("Uni Folder" (dired "~/UEMG") "u")
 	("Work Folder" (dired "~/Workspace") "w")
-	("Routine" (find-file "~/Org-Notes/rotina.org") "w")
 	)
        ("Other"
 	("Projects" project-switch-project "p")))))))
@@ -52,21 +50,6 @@
 (load-theme 'zenburn t)
 
 (setopt initial-buffer-choice #'enlight)
-
-
-(global-set-key (kbd "C-x w") 'elfeed)
-
-
-(use-package livemarkup
-  :load-path "~/.emacs.d/lisp"
-  :config
-  (setq livemarkup-output-directory "/tmp"
-        livemarkup-close-buffer-delete-temp-files t)
-)
-
-(setq elfeed-feeds
-      '("https://xkcd.com/atom.xml"
-        "https://lukesmith.xyz/index.xml"))
 
 (delete-selection-mode 1)
 
@@ -84,7 +67,7 @@
  '(package-selected-packages
    '(ac-slime adoc-mode auto-dark auto-package-update cider cmake-mode
 	      company consult dap-mode dir-treeview dockerfile-mode
-	      eldoc-box elfeed-web elpy emmet-mode emms
+	      eldoc-box elpy emmet-mode emms
 	      emms-player-simple-mpv emms-player-spotify enlight evil
 	      flex-autopair helm-lsp helm-slime helm-xref ivy
 	      linum-relative lsp-pyright lsp-ui lua-mode magit
@@ -189,19 +172,7 @@
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
 
-(use-package aider
-  :config
-  ;; For latest claude sonnet model
-  (setq aider-args '("--model" "sonnet"))
-  (setenv "ANTHROPIC_API_KEY" anthropic-api-key)
-  ;; Or chatgpt model
-  ;; (setq aider-args '("--model" "o3-mini"))
-  ;; (setenv "OPENAI_API_KEY" <your-openai-api-key>)
-  ;; Or use your personal config file
-  ;; (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
-  ;; ;;
-  ;; Optional: Set a key binding for the transient menu
-  (global-set-key (kbd "C-c a") 'aider-transient-menu))
+
 
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
@@ -211,19 +182,6 @@
 ;; if you use treesitter based typescript-ts-mode (emacs 29+)
 (add-hook 'typescript-ts-mode-hook #'setup-tide-mode)
 
-
-;;Common lisp stuff 
-(require 'slime)
-(slime-setup '(slime-fancy slime-quicklisp slime-asdf slime-mrepl))
-
-
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-;; Replace "sbcl" with the path to your implementation
-(setq inferior-lisp-program "sbcl")
-
-(add-hook 'cider-mode-hook #'company-mode)
-(global-set-key (kbd "TAB") #'company-indent-or-complete-common)
-;;(define-key global-map (kbd "RET") 'newline-and-indent)
 
 ;; org-mode configs
 (transient-mark-mode 1)
@@ -250,7 +208,8 @@
 
 
 (setq org-agenda-files (list  "~/Org-Notes/estudos.org"
-			      "~/Org-Notes/trabalho.org"))
+			      "~/Org-Notes/trabalho.org"
+			      "~/Org-Notes/geral.org"))
 
 
 (setq backup-directory-alist            '((".*" . "~/.Trash")))

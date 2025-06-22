@@ -4,26 +4,25 @@
    environment.systemPackages = with pkgs; [
       vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
       wget
-      kdePackages.ark
-      thunderbird
       nodejs
       gcc
+      #cuz nix requires it somehow
+      git
       ffmpeg-full
       kexec-tools
       distrobox
+      efibootmgr
       podman-compose
       texlive.combined.scheme-full
-      kdePackages.okular
-      input-remapper
       slurp
       openvpn
       libarchive
       leiningen
       mako
       jdk21
+      neovim
       which
       rPackages.pkgconfig 
-      xidlehook
       cairo 
       android-tools
       brightnessctl
@@ -38,39 +37,22 @@
 	 gopls
 	 go
 	 tmux
-	 xss-lock
-	 telegram-desktop
 	 pipx
-	 kdePackages.okular
 	 sbcl
 	 zip
 	 multipath-tools 
 	 openssl
 	 clojure-lsp
 	 dex
-	 gimp
+	 btop
 	 gnome-tweaks
-	 geeqie
-	 transmission_4-qt
-	 firefox
-	 feh
+	 gnomeExtensions.appindicator
 	 unzip
-	 ptyxis
-	 picom
-	 emacs
-	 arandr
 	 devbox
 	 yt-dlp
          keepassxc
-	 mpv
 	 bottom
-	 zed-editor
 	 python312Full
-	 koodo-reader
-	 mplayer
-	 vlc
-	 kitty
-	 palemoon-bin
 	 scrcpy
 	 alsa-utils
 	 zeal
@@ -82,7 +64,6 @@
 	 pipenv
 	 python312Packages.pkgconfig
 	 asciidoctor-with-extensions
-	 postman
 	 streamlink
       ];
       hashedPassword = "$y$j9T$ILvyeB3rSFT7yiMgx6xBh/$O3qkgsba6AcXEwtzfu2v9aWgVF.aw7F9SBoa/Lciji6";
