@@ -38,13 +38,13 @@ in
 
      kernelParams = [
          "pcie_aspm=off"
+	 "amdgpu.ppfeaturemask=0xffffffff"
+	 "amdgpu.gpu_recovery=1"
 	 "quiet"
 	 "splash"
      ];
 
      initrd.kernelModules = [ "amdgpu" ];
-
-     kernelPackages = pkgs.linuxPackages_6_6;
 
      supportedFilesystems = ["ntfs"];  
   };
