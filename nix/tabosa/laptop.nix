@@ -2,38 +2,30 @@
 
 
 {
-          hardware.bluetooth.enable = true; 
-	  hardware.bluetooth.powerOnBoot = true; 
+          hardware.bluetooth = { 
+	       enable = true; 
+	       powerOnBoot = true;
+	  };
 
 
-	  services.udev.extraRules = '' 
-	    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="disabled"
-	  '';
+	  services = { 
+	     udev.extraRules = '' 
+	         ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="disabled"
+	     '';
 
-	  services.blueman.enable = true;
+	     blueman.enable = true;
 
-	  services.auto-cpufreq.enable = true; 
-	  services.auto-cpufreq.settings = {
-		    battery = { 
-			       governor = "powersave"; 
-			       turbo = "never";
-		    }; 
-
-		    charger = {
-			      governor = "performance"; 
-			      turbo = "auto";
-		    }; 
 	  };
 
 	specialisation = { 
 	   nvidia.configuration = { 
 	     # Nvidia Configuration 
 		     services.xserver.videoDrivers = [ "nvidia" ]; 
-		     hardware.opengl.enable = true; 
+		     hardware.graphics.enable = true; 
 	  
 	     # Optionally, you may need to select the appropriate driver version for your specific GPU. 
 	     hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable; 
-	  
+	     hardware.nvidia.open = false; 
 	     hardware.nvidia.prime = { 
 		       sync.enable = true; 
 		  
