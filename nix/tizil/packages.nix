@@ -17,6 +17,7 @@
       slurp
       openvpn
       libarchive
+      aider-chat-full
       leiningen
       mako
       jdk21
@@ -31,7 +32,7 @@
 
    users.users.lemos = {
       isNormalUser = true;
-      extraGroups = ["adbusers" "wheel" "libvirtd" "input" "audio" ]; # Enable ‘sudo’ for the user.
+      extraGroups = ["adbusers" "wheel" "libvirtd" "input" "audio" "render" "video"]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
          tree
 	 gopls

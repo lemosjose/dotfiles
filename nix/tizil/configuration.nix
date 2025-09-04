@@ -17,7 +17,10 @@ in
   hardware = {
       enableAllFirmware = true; 
 
-      graphics.enable = true;
+      graphics = {
+          enable = true;
+	  enable32Bit = true;
+      };
   };
 
   #nixpkgs.config.allowUnfree = true;
@@ -25,6 +28,8 @@ in
   nixpkgs = { 
      config.allowUnfree = true;
   };
+
+
 
   boot = {
      loader.systemd-boot = { 
@@ -77,10 +82,18 @@ in
       };
   };
 
-  #fonts fixing 
+  #i hate missing fonts
 
   fonts.packages = with pkgs; [
      font-awesome
+     nerd-fonts.fira-code 
+     nerd-fonts.ubuntu 
+     nerd-fonts.jetbrains-mono 
+     dejavu_fonts 
+     liberation_ttf
+     noto-fonts
+     noto-fonts-cjk-sans 
+     noto-fonts-emoji
      powerline-fonts
      powerline-symbols
   ];
@@ -89,6 +102,19 @@ in
       udev = {
           enable = true; 
 	  packages = with pkgs; [ android-udev-rules gnome-settings-daemon];
+      };
+
+      ollama = {
+          enable = true;
+	  acceleration = "rocm";
+	  #i prefer to keep it here just remember the value without running nix-shell for rocmPackages
+	  environmentVariables = { 
+	      HCC_AMDGPU_TARGET = "gfx1032";
+	      HSA_OVERRIDE_GFX_VERSION= "10.3.0";
+	      HIP_VISIBLE_DEVICES = "0";
+	  };
+
+	  loadModels = [ "deepseek-r1:latest" "llama3.1:latest" ];
       };
 
       gvfs.enable = true; 
@@ -146,6 +172,8 @@ in
        libvirtd.enable = true;
 
        spiceUSBRedirection.enable = true;
+
+       waydroid.enable = true;
   };
 
 

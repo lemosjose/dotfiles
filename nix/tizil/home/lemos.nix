@@ -59,7 +59,7 @@ in
     home = { 
         stateVersion = "23.05";
 	#i decided to insert gui/daily-use stuff here to keep it "clean" in my head
-	packages = with pkgs; [ google-chrome telegram-desktop thunderbird kdePackages.ark mpv kdePackages.okular vlc zed-editor ptyxis postman firefox chromium pavucontrol spotify gimp emacs gnome-tweaks vscode ];
+	packages = with pkgs; [ libreoffice-fresh discord calibre gnome-pomodoro google-chrome telegram-desktop thunderbird kdePackages.ark mpv kdePackages.okular vlc zed-editor ptyxis postman firefox chromium pavucontrol spotify gimp emacs gnome-tweaks vscode ];
     };
   };
 

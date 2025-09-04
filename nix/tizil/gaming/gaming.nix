@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 {
    imports = [
       ../hardware-configuration.nix
@@ -19,11 +18,13 @@
                nixos.tags = [ "Playstation" ];
 	   };
 
+	   nixpkgs.config.allowUnfree = true;
+
 	   boot = { 
 	       kernelParams = [
 	           "quiet"
 		   "splash"
-		   "pcie_aspm=off"
+		   "amd_pstate=active"
 	       ];
 
 	       plymouth.enable = true;
@@ -38,15 +39,18 @@
 	   hardware = { 
 	       enableAllFirmware = true;
 
-	       graphics = {
-	           enable = true;
-		   enable32Bit = true;
-		   extraPackages = with pkgs; [vulkan-loader vulkan-tools mesa];
+	       amdgpu = { 
+	           amdvlk = { 
+		       enable = true; 
+		       support32Bit.enable = true; 
+		   }; 
+
+		   initrd.enable = true;
 	       };
 	   };
 	   
 	   networking = {
-	       wireless.iwd.enable = true;
+	       networkmanager.enable = true;
 	       dhcpcd.enable = true;
 	   };
 
@@ -60,67 +64,103 @@
 		    pulse.enable = true;
 	        };
 
+		flatpak.enable = true;
+
 		xserver = { 
-		   enable = true; 
-		   videoDrivers = [ "amdgpu" ];
+		    desktopManager.gnome.enable = true; 
+		    displayManager.gdm.enable = true;
 		};
 
 		gvfs.enable = true; 
 		devmon.enable = true;
 		tumbler.enable = true;
 
-		flatpak.enable = true; 
-
-		xserver.desktopManager.gnome.enable = true;
-		xserver.displayManager.gdm.enable = true;
 
 		geoclue2.enable = true;
 	   };
-
-	   security.polkit.enable = true; 
 
 	   xdg.portal = {
 	       wlr.enable = true; 
 	       xdgOpenUsePortal = true;
 	   };
 
+	   security.polkit.enable = true; 
+
 	   location.provider = "geoclue2";
 
 
 	   #packageos
 
-	   nixpkgs.config.allowUnfree = true;
 
 	   environment.systemPackages = with pkgs; [
 	       ffmpeg-full
 	       brightnessctl 
 	       openvpn
+	       cmake
+	       steam-rom-manager
 	       libretro.nestopia
 	       libretro.snes9x 
 	       libretro.genesis-plus-gx
 	       retroarchFull
 	       neovim
-	       mesa
 	       vulkan-tools
 	   ];
 
+	   programs = {
+	      gamescope = { 
+	         enable = true; 
+		 capSysNice = true; 
+	      };
+	      steam = {
+	          enable = true;
+		  localNetworkGameTransfers.openFirewall = true;
+		  gamescopeSession.enable = true;
+	      };
+
+	      gamemode = { 
+	          enable = true;
+		  settings = {
+		      general = { 
+		          renice = 10; 
+		      };
+		      
+		      gpu = { 
+		          apply_gpu_optimisations = "accept-responsibility"; 
+			  gpu_device = 0;
+			  amd_performance_level = "high";
+		      };
+		  };
+	      };
+	   };
+
 	   users.users.Travis = { 
 	      isNormalUser = true; 
-	      extraGroups = ["adbusers" "wheel" "libvirtd" "input" "audio"];
-
+	      extraGroups = ["adbusers" "wheel" "libvirtd" "input" "audio" "gamemode" "networkmanager"];
 	      packages = with pkgs; [
 	         tree
 		 audacity
 		 gimp
 		 ptyxis
 		 kdePackages.kdenlive 
-		 keepassxc
-		 steam
 		 firefox
+		 mangohud
+		 lutris
+		 heroic
+		 bottles
 		 obs-studio
+		 discord
 		 gnome-tweaks
 		 telegram-desktop
 		 steam-run
+		 keepassxc
+		 rpcs3
+		 vlc
+		 spotify
+		 ryujinx
+		 chromium
+		 pavucontrol
+		 calibre
+		 protonup
 	      ];
               hashedPassword = "$y$j9T$ThUZGEDD65jKe8H2473wv1$DdGOjKZ0eVNr3kk/48i8RoM4O502JYpgPHf76EJZJ0C";
 	   };

@@ -26,21 +26,6 @@
                                   (kill-buffer "*scratch*"))))
 
 
-;;enlight config
-(use-package enlight
-  :custom
-  (enlight-content
-   (concat
-    (propertize "MENU" 'face 'highlight)
-    "\n"
-    (enlight-menu
-     '(("Org Mode"
-	("Org-Agenda (current day)" (org-agenda nil "a") "a"))
-       ("Prod"
-	("Work Folder" (dired "~/Workspace") "w")
-	)
-       ("Other"
-	("Projects" project-switch-project "p")))))))
 
 
 (setq warning-minimum-level :error)
@@ -49,7 +34,7 @@
 
 (load-theme 'zenburn t)
 
-(setopt initial-buffer-choice #'enlight)
+(setopt initial-buffer-choice "~/Org-Notes/init.org")
 
 (delete-selection-mode 1)
 
@@ -65,19 +50,21 @@
  '(initial-scratch-message nil)
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(ac-slime adoc-mode auto-dark auto-package-update cider cmake-mode
-	      company consult dap-mode dir-treeview dockerfile-mode
-	      eldoc-box elpy emmet-mode emms
-	      emms-player-simple-mpv emms-player-spotify enlight evil
-	      flex-autopair helm-lsp helm-slime helm-xref ivy
-	      linum-relative lsp-pyright lsp-ui lua-mode magit
-	      multiple-cursors nix-mode nlinum org-bullets org-modern
-	      pdf-tools persp-mode poetry powerline projectile
-	      qml-mode request rustic scss-mode srcery-theme telega
-	      tide treemacs-all-the-icons treemacs-tab-bar
-	      typescript-mode use-package vue-mode web-mode
-	      yasnippet-classic-snippets yasnippet-snippets yeetube
-	      zenburn-theme)))
+   '(ac-slime adoc-mode aidermacs arxiv-citation auto-dark
+	      auto-package-update cider cmake-mode company consult
+	      dap-mode denote dir-treeview dockerfile-mode eldoc-box
+	      elpy emmet-mode emms emms-player-simple-mpv
+	      emms-player-spotify enlight evil flex-autopair go-mode
+	      helm-lsp helm-slime helm-xref ivy kanagawa-themes
+	      kaolin-themes linum-relative lsp-pyright lsp-ui lua-mode
+	      magit modus-themes multiple-cursors nerd-icons nix-mode
+	      nlinum org-bullets org-modern pdf-tools persp-mode
+	      poetry powerline projectile qml-mode request rustic
+	      scss-mode srcery-theme tao-theme telega tide
+	      treemacs-all-the-icons treemacs-nerd-icons
+	      treemacs-tab-bar typescript-mode use-package vue-mode
+	      web-mode yasnippet-classic-snippets yasnippet-snippets
+	      yeetube zenburn-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -91,7 +78,6 @@
 
 
 (require 'flex-autopair)
-(ac-config-default)
 
 ;;lsp stuff
 (setq lsp-keymap-prefix "s-l")
@@ -167,6 +153,11 @@
   ;; `M-x package-install [ret] company`
   (company-mode +1))
 
+(use-package company
+  :init
+  (global-company-mode)
+  :config
+  (setq company-backends '(company-lsp company-dabbrev-code company-yasnippet)))
 
 (setq package-list '(dap-mode typescript-mode))
 ;; aligns annotation to the right hand side
@@ -181,6 +172,8 @@
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 ;; if you use treesitter based typescript-ts-mode (emacs 29+)
 (add-hook 'typescript-ts-mode-hook #'setup-tide-mode)
+(add-hook 'go-mode-hook #'lsp)
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
 
 ;; org-mode configs
@@ -219,5 +212,14 @@
 
 (require 'eldoc-box)
 
-(treemacs)
-(pdf-tools-install)
+
+(load-theme 'tao-yin t)
+
+
+(use-package aidermacs
+  :bind (("C-c a" . aidermacs-transient-menu))
+  :custom
+  ; See the Configuration section below
+  (aidermacs-default-chat-mode 'architect)
+  (aidermacs-default-model "ollama_chat/llama3.1:latest"))
+
