@@ -55,13 +55,13 @@
 	      dap-mode denote dir-treeview dockerfile-mode eldoc-box
 	      elpy emmet-mode emms emms-player-simple-mpv
 	      emms-player-spotify enlight evil flex-autopair go-mode
-	      helm-lsp helm-slime helm-xref ivy kanagawa-themes
-	      kaolin-themes linum-relative lsp-pyright lsp-ui lua-mode
-	      magit modus-themes multiple-cursors nerd-icons nix-mode
-	      nlinum org-bullets org-modern pdf-tools persp-mode
-	      poetry powerline projectile qml-mode request rustic
-	      scss-mode srcery-theme tao-theme telega tide
-	      treemacs-all-the-icons treemacs-nerd-icons
+	      haskell-mode helm-lsp helm-slime helm-xref ivy
+	      kanagawa-themes kaolin-themes linum-relative lsp-pyright
+	      lsp-ui lua-mode magit modus-themes multiple-cursors
+	      nerd-icons nix-mode nlinum org-bullets org-modern
+	      pdf-tools persp-mode poetry powerline projectile
+	      qml-mode request rustic scss-mode srcery-theme tao-theme
+	      telega tide treemacs-all-the-icons treemacs-nerd-icons
 	      treemacs-tab-bar typescript-mode use-package vue-mode
 	      web-mode yasnippet-classic-snippets yasnippet-snippets
 	      yeetube zenburn-theme)))
