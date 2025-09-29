@@ -20,21 +20,10 @@
 (setq inhibit-splash-screen t)
 
 
-;; i can't tolerate the scratch buffer
-(add-hook 'emacs-startup-hook (lambda ()
-                                (when (get-buffer "*scratch*")
-                                  (kill-buffer "*scratch*"))))
-
-
-
-
 (setq warning-minimum-level :error)
 
 (setq make-backup-files nil)
 
-(load-theme 'zenburn t)
-
-(setopt initial-buffer-choice "~/Org-Notes/init.org")
 
 (delete-selection-mode 1)
 
@@ -52,19 +41,20 @@
  '(package-selected-packages
    '(ac-slime adoc-mode aidermacs arxiv-citation auto-dark
 	      auto-package-update cider cmake-mode company consult
-	      dap-mode denote dir-treeview dockerfile-mode eldoc-box
-	      elpy emmet-mode emms emms-player-simple-mpv
-	      emms-player-spotify enlight evil flex-autopair go-mode
-	      haskell-mode helm-lsp helm-slime helm-xref ivy
-	      kanagawa-themes kaolin-themes linum-relative lsp-pyright
-	      lsp-ui lua-mode magit modus-themes multiple-cursors
-	      nerd-icons nix-mode nlinum org-bullets org-modern
-	      pdf-tools persp-mode poetry powerline projectile
-	      qml-mode request rustic scss-mode srcery-theme tao-theme
+	      dap-mode denote denote-explore denote-search
+	      dir-treeview docker docker-compose-mode dockerfile-mode
+	      eldoc-box elpy emmet-mode emms emms-player-simple-mpv
+	      emms-player-spotify enlight evil go-mode haskell-mode
+	      helm-lsp helm-slime helm-xref ivy kanagawa-themes
+	      kaolin-themes linum-relative lsp-pyright lsp-ui lua-mode
+	      magit mediawiki modus-themes multiple-cursors nerd-icons
+	      nix-mode nlinum org-bullets org-modern pdf-tools
+	      persp-mode poetry powerline projectile qml-mode request
+	      rustic scss-mode smartparens srcery-theme tao-theme
 	      telega tide treemacs-all-the-icons treemacs-nerd-icons
 	      treemacs-tab-bar typescript-mode use-package vue-mode
 	      web-mode yasnippet-classic-snippets yasnippet-snippets
-	      yeetube zenburn-theme)))
+	      yeetube)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -77,7 +67,6 @@
   (mapc #'package-install package-selected-packages))
 
 
-(require 'flex-autopair)
 
 ;;lsp stuff
 (setq lsp-keymap-prefix "s-l")
@@ -100,7 +89,6 @@
 (add-hook 'c++-mode-hook 'lsp)
 (add-to-list 'auto-mode-alist '("\\.cpp$". c++-mode))
 (add-to-list 'auto-mode-alist '("\\.hpp$". c++-mode))
-
 (add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))
 
 
@@ -183,6 +171,8 @@
 
 (global-flycheck-mode)
 
+(add-hook 'dired-mode-hook #'denote-dired-mode)
+
 (require 'org)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-ct" 'sgml-close-tag)
@@ -194,11 +184,9 @@
 
 (setq emms-player-list '(emms-player-mpv))
 
-(use-package treemacs
-  :ensure t)
 
-(global-set-key "\C-cf" 'treemacs)
-
+(require 'treemacs)
+(global-set-key (kbd "C-c f") 'treemacs)
 
 (setq org-agenda-files (list  "~/Org-Notes/estudos.org"
 			      "~/Org-Notes/trabalho.org"
@@ -213,9 +201,6 @@
 (require 'eldoc-box)
 
 
-(load-theme 'tao-yin t)
-
-
 (use-package aidermacs
   :bind (("C-c a" . aidermacs-transient-menu))
   :custom
@@ -223,3 +208,14 @@
   (aidermacs-default-chat-mode 'architect)
   (aidermacs-default-model "ollama_chat/llama3.1:latest"))
 
+
+(setq denote-directory (expand-file-name "~/denote"))
+
+(setq denote-known-keywords '( "filosofia" "emacs" "denote" "iftm" "simusol" "SIG" "catholicism" "tech" "ai" "prompt"))
+
+(setq denote-file-type nil)
+
+
+(setq initial-buffer-choice (lambda () (find-file "~/Org-Notes/init.org")))
+
+(provide 'init)
